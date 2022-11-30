@@ -1,16 +1,14 @@
 # frozen_string_literal: true
 
-module Domain
-  class DataFile
+module Data
+  class File
     include AggregateRoot
 
-    attr_reader(
-      :state,
-      :uploaded_at,
-      :filename,
-      :processing_started_at,
-      :processing_ended_at,
-    )
+    attr_reader :state
+    attr_reader :uploaded_at
+    attr_reader :filename
+    attr_reader :processing_started_at
+    attr_reader :processing_ended_at
 
     def initialize(id, filename)
       @id = id

@@ -1,16 +1,14 @@
 # frozen_string_literal: true
 
-module Domain
-  class DataFileFormat
+module Data
+  class FileFormat
     include AggregateRoot
 
-    attr_reader(
-      :state,
-      :updated_at,
-      :activated_at,
-      :inactivated_at,
-      :name,
-    )
+    attr_reader :state
+    attr_reader :updated_at
+    attr_reader :activated_at
+    attr_reader :inactivated_at
+    attr_reader :name
 
     def initialize(id)
       @id = id
@@ -21,7 +19,7 @@ module Domain
         name: name,
         updated_at: Time.now,
       }
-      apply Domain::Events::FileFormatCreated.new(data: event_data)
+      apply Events::FileFormatCreated.new(data: event_data)
     end
 
     def activate
@@ -29,7 +27,7 @@ module Domain
         activated_at: Time.now,
         updated_at: Time.now,
       }
-      apply Domain::Events::FileFormatActivated.new(data: event_data)
+      apply Events::FileFormatActivated.new(data: event_data)
     end
 
     def inactivate
@@ -37,22 +35,22 @@ module Domain
         inactivated_at: Time.now,
         updated_at: Time.now,
       }
-      apply Domain::Events::FileFormatInactivated.new(data: event_data)
+      apply Events::FileFormatInactivated.new(data: event_data)
     end
 
-    on Domain::Events::FileFormatCreated do |event|
+    on Events::FileFormatCreated do |event|
       @state = :created
       @updated_at = event.data.fetch(:updated_at)
       @name = event.data.fetch(:name)
     end
 
-    on Domain::Events::FileFormatActivated do |event|
+    on Events::FileFormatActivated do |event|
       @state = :activated
       @updated_at = event.data.fetch(:updated_at)
       @activated_at = event.data.fetch(:activated_at)
     end
 
-    on Domain::Events::FileFormatInactivated do |event|
+    on Events::FileFormatInactivated do |event|
       @state = :inactivated
       @updated_at = event.data.fetch(:updated_at)
       @inactivated_at = event.data.fetch(:inactivated_at)

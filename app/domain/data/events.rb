@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Domain
+module Data
   module Events
     # ====== ROW ====== #
 
@@ -17,7 +17,7 @@ module Domain
     # Domain event that occurs when the row is ingested.
     class RowIngested < RailsEventStore::Event; end
 
-    # ====== File ====== #
+    # ====== FILE ====== #
 
     # Domain event that occurs when the file is uploaded.
     class FileUploaded < RailsEventStore::Event; end
@@ -26,16 +26,7 @@ module Domain
     # Domain event that occurs when the file is completely processed.
     class FileProcessed < RailsEventStore::Event; end
 
-    # ====== Rule ====== #
-
-    # Domain event that occurs when the rule is created.
-    class RuleCreated < RailsEventStore::Event; end
-    # Domain event that occurs when the rule is activated.
-    class RuleActivated < RailsEventStore::Event; end
-    # Domain event that occurs when the rule is inactivated.
-    class RuleInactivated < RailsEventStore::Event; end
-
-    # ====== File FORMAT ====== #
+    # ====== FILE FORMAT ====== #
 
     # Domain event that occurs when the file format is created.
     class FileFormatCreated < RailsEventStore::Event; end
@@ -43,14 +34,5 @@ module Domain
     class FileFormatActivated < RailsEventStore::Event; end
     # Domain event that occurs when the file format is inactivated.
     class FileFormatInactivated < RailsEventStore::Event; end
-
-    # ====== PIPELINE ====== #
-
-    # Domain event that occurs when the pipeline is created.
-    class PipelineCreated < RailsEventStore::Event; end
-    # Domain event that occurs when the pipeline is activated.
-    class PipelineActivated < RailsEventStore::Event; end
-    # Domain event that occurs when the pipeline is inactivated.
-    class PipelineInactivated < RailsEventStore::Event; end
   end
 end

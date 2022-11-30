@@ -1,18 +1,16 @@
 # frozen_string_literal: true
 
-module Domain
-  class DataRow
+module Data
+  class Row
     include AggregateRoot
 
-    attr_reader(
-      :id,
-      :state,
-      :uploaded_at,
-      :hash,
-      :ingested_at,
-      :filtered_at,
-      :data,
-    )
+    attr_reader :id
+    attr_reader :state
+    attr_reader :uploaded_at
+    attr_reader :hash
+    attr_reader :ingested_at
+    attr_reader :filtered_at
+    attr_reader :data
 
     def initialize(id, hasher = ::Hashers::Md5)
       @id = id

@@ -3,55 +3,56 @@
 module Api
   class RowsController < ApplicationController
     def index
-      # use projection instead.
+      # use projection or read model instead.
+      respond(DataRow.all)
     end
 
     def show
-      row = repository.load(Domain::DataRow.new, stream_name)
+      row = repository.load(Data::Row.new(params[:id]), stream_name)
 
       respond(row)
     end
 
     def create
-      result = repository.with_aggregate(Domain::DataRow.new(new_id), stream_name) do |row|
+      id = new_id
+      repository.with_aggregate(Data::Row.new(id), stream_name(id)) do |row|
         row.upload(creation_params.fetch(:data))
       end
 
-      respond(result)
+      respond(repository.load(Data::Row.new(id), stream_name(id)))
     end
 
     def update
-      result = repository.with_aggregate(Domain::DataRow.new(params[:id]), stream_name) do |row|
+      id = params[:id]
+      result = repository.with_aggregate(Data::Row.new(id), stream_name) do |row|
         row.update_data(update_params.fetch(:data))
       end
 
-      respond(result)
+      # build read model.
+      # DataRow.update!(
+      #   state: result.state,
+      #   data: result.data,
+      # )
+
+      respond(repository.load(Data::Row.new(id), stream_name(id)))
     end
 
     private
 
     def creation_params
-      {
-        data: {
-          'COLUMN X': 'foo',
-          'COLUMN Y': 'bar',
-          'COLUMN Z': 'baz'
-        }
-      }
+      params.permit!
     end
 
     def update_params
-      {
-        data: {
-          'COLUMN X': 'oof',
-          'COLUMN Y': 'rab',
-          'COLUMN Z': 'zab'
-        }
-      }
+      params.permit!
     end
 
     def resource_klass
-      Domain::DataRow
+      Data::Row
+    end
+
+    def resource_representer_klass
+      RowRepresenter
     end
   end
 end
