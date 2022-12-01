@@ -32,13 +32,11 @@ module Data
     end
 
     def validate
-      # execute all rules attached to the corresponding report format pipeline.
-      valid = rand(10) % 2 == 0
-      if valid
-        apply Events::RowValidated.new(data: { updated_at: Time.now })
-      else
-        apply Events::RowInvalidated.new(data: { updated_at: Time.now })
-      end
+      apply Events::RowValidated.new(data: { updated_at: Time.now })
+    end
+
+    def invalidate
+      apply Events::RowInvalidated.new(data: { updated_at: Time.now })
     end
 
     def filter
@@ -71,10 +69,12 @@ module Data
 
     on Events::RowInvalidated do |event|
       @state = :invalid
+      @updated_at = event.data.fetch(:updated_at)
     end
 
     on Events::RowValidated do |event|
       @state = :valid
+      @updated_at = event.data.fetch(:updated_at)
     end
 
     on Events::RowIngested do |event|

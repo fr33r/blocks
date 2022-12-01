@@ -44,6 +44,7 @@ gem "bootsnap", require: false
 
 gem "roar"
 gem "multi_json"
+gem "json_logic"
 
 # Use Sass to process CSS
 # gem "sassc-rails"
