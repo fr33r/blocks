@@ -3,23 +3,24 @@
 module Api
   class RowsController < ApplicationController
     def index
-      # use projection or read model instead.
-      respond(DataRow.all)
+      respond(read_model.all)
     end
 
     def show
-      row = repository.load(Data::Row.new(params[:id]), stream_name)
+      respond(read_model.find(params[:id]))
 
-      respond(row)
+#       row = repository.load(Data::Row.new(params[:id]), stream_name)
+
+#       respond(row)
     end
 
     def create
-      id = new_id
-      repository.with_aggregate(Data::Row.new(id), stream_name(id)) do |row|
-        row.upload(creation_params.fetch(:data))
-      end
+      # id = new_id
+      # repository.with_aggregate(Data::Row.new(id), stream_name(id)) do |row|
+      #   row.upload(creation_params.fetch(:data))
+      # end
 
-      respond(repository.load(Data::Row.new(id), stream_name(id)))
+      # respond(repository.load(Data::Row.new(id), stream_name(id)))
     end
 
     def update
