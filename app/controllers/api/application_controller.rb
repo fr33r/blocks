@@ -29,12 +29,12 @@ module Api
 
     def configuration_event_handlers(client)
       handler = ->(event) { read_model.handle(event) }
-      client.subscribe(handler, handleable_events)
+      client.subscribe(handler, to: handleable_events)
     end
 
     def configure_command_handlers(bus)
-      bus.register(Data::Commands::CreateRow, Data::CommandHandlers::CreateRowHandler)
-      bus.register(Data::Commands::UpdateRow, Data::CommandHandlers::UpdateRowHandler)
+      bus.register(Data::Commands::CreateRow, Data::CommandHandlers::CreateRowHandler.new(event_store))
+      bus.register(Data::Commands::UpdateRow, Data::CommandHandlers::UpdateRowHandler.new(event_store))
     end
 
     def read_model

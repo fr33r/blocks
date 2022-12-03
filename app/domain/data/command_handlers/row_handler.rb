@@ -9,24 +9,16 @@ module Data
 
       private
       
-      def with_row(id)
-        Data::Row.new(id).tap do |row|
-          load_row(id, row)
-          yield(row)
-          store_row(row)
-        end
-      end
-
-      def load_row(id, row)
-        row.load(stream_name(id), event_store: event_store)
-      end
-
-      def store_row(row)
-        row.store(event_store: event_store)
+      def with_row(id, &block)
+        repository.with_aggregate(Row.new(id), stream_name(id), &block)
       end
 
       def stream_name(id)
         "Row$#{id}"
+      end
+
+      def repository
+        AggregateRoot::Repository.new(event_store)
       end
     end
   end

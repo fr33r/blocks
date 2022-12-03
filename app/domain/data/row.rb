@@ -4,6 +4,22 @@ module Data
   class Row
     include AggregateRoot
 
+    class State
+      UPLOADED = :uploaded
+      VALID    = :valid
+      INVALID  = :invalid
+      FILTERED = :filtered
+      INGESTED = :ingested
+    end
+
+    STATES = [
+      State::UPLOADED,
+      State::VALID,
+      State::INVALID,
+      State::FILTERED,
+      State::INGESTED,
+    ].freeze
+
     attr_reader :id
     attr_reader :state
     attr_reader :uploaded_at
@@ -18,7 +34,8 @@ module Data
     end
 
     def update_data(data)
-      apply Events::RowUpdated.new(data: { data: data, updated_at: Time.now })
+      hash = hasher.hash(data.to_yaml)
+      apply Events::RowUpdated.new(data: { data: data, updated_at: Time.now, hash: hash })
     end
 
     def upload(data)
@@ -26,59 +43,61 @@ module Data
         uploaded_at: Time.now,
         updated_at: Time.now,
         data: data,
+        state: State::UPLOADED,
         id: id,
+        hash: hasher.hash(data.to_yaml),
       }
       apply Events::RowUploaded.new(data: event_data)
     end
 
     def validate
-      apply Events::RowValidated.new(data: { updated_at: Time.now })
+      apply Events::RowValidated.new(data: { state: State::VALID, updated_at: Time.now })
     end
 
     def invalidate
-      apply Events::RowInvalidated.new(data: { updated_at: Time.now })
+      apply Events::RowInvalidated.new(data: { state: State::INVALID, updated_at: Time.now })
     end
 
     def filter
-      apply Events::RowFiltered.new(data: { filtered_at: Time.now, updated_at: Time.now })
+      apply Events::RowFiltered.new(data: { state: State::FILTERED, updated_at: Time.now })
     end
 
     def ingest
-      apply Events::RowIngested.new(data: { ingested_at: Time.now, updated_at: Time.now })
+      apply Events::RowIngested.new(data: { state: State::INGESTED, updated_at: Time.now })
     end
 
     on Events::RowUploaded do |event|
-      @state = :uploaded
+      @state = event.data.fetch(:state)
       @updated_at = event.data.fetch(:updated_at)
-      @hash = hasher.hash(event.data.to_yaml)
+      @hash = event.data.fetch(:hash)
       @data = event.data.fetch(:data)
       @uploaded_at = event.data.fetch(:uploaded_at)
     end
 
     on Events::RowUpdated do |event|
       @updated_at = event.data.fetch(:updated_at)
-      @hash = hasher.hash(event.data.to_yaml)
+      @hash = event.data.fetch(:hash)
       @data = event.data.fetch(:data)
     end
 
     on Events::RowFiltered do |event|
-      @state = :filtered
+      @state = event.data.fetch(:state)
       @updated_at = event.data.fetch(:updated_at)
       @filtered_at = event.data.fetch(:filtered_at)
     end
 
     on Events::RowInvalidated do |event|
-      @state = :invalid
+      @state = event.data.fetch(:state)
       @updated_at = event.data.fetch(:updated_at)
     end
 
     on Events::RowValidated do |event|
-      @state = :valid
+      @state = event.data.fetch(:state)
       @updated_at = event.data.fetch(:updated_at)
     end
 
     on Events::RowIngested do |event|
-      @state = :ingested
+      @state = event.data.fetch(:state)
       @updated_at = event.data.fetch(:updated_at)
       @ingested_at = event.data.fetch(:ingested_at)
     end

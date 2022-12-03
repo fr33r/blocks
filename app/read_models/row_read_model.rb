@@ -31,7 +31,7 @@ class RowReadModel
   end
 
   def with_state(state)
-    scope.send(state.to_sym)
+    scope.send("#{state}_state".to_sym)
   end
 
   def limit(limit = 25)
@@ -45,33 +45,37 @@ class RowReadModel
   private
 
   def create_row!(event_data)
-    attributes = %i[id data uploaded_by uploaded_at updated_by updated_at]
-    Row.create!(**event_data.slice(*attributes))
+    attributes_names = %i[id data uploaded_by uploaded_at updated_by updated_at]
+    attributes = event_data.slice(*attributes_names)
+    attributes[:created_at] = attributes.delete(:uploaded_at)
+    attributes[:created_by] = attributes.delete(:uploaded_by)
+    Row.create!(**attributes)
   end
 
   def update_row!(event_data)
-    attributes = %i[data updated_by updated_at]
-    Row.update!(**event_data.slice(*attributes))
+    attributes_names = %i[data updated_by updated_at]
+    attributes = event_data.slice(*attributes_names)
+    Row.update!(**event_data.slice(*attributes_names))
   end
 
   def validate_row!(event_data)
-    attributes = %i[updated_at]
-    Row.update!(**event_data.slice(*attributes))
+    attribute_names = %i[updated_at]
+    Row.update!(**event_data.slice(*attribute_names))
   end
 
   def invalidate_row!(event_data)
-    attributes = %i[updated_at]
-    Row.update!(**event_data.slice(*attributes))
+    attribute_names = %i[updated_at]
+    Row.update!(**event_data.slice(*attribute_names))
   end
 
   def filter_row!(event_data)
-    attributes = %i[updated_at]
-    Row.update!(**event_data.slice(*attributes))
+    attribute_names = %i[updated_at]
+    Row.update!(**event_data.slice(*attribute_names))
   end
 
   def ingest_row!(event_data)
-    attributes = %i[updated_at]
-    Row.update!(**event_data.slice(*attributes))
+    attribute_names = %i[updated_at]
+    Row.update!(**event_data.slice(*attribute_names))
   end
 
   def scope

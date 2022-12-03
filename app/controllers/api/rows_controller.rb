@@ -15,21 +15,19 @@ module Api
     end
 
     def create
-      created_by = SecureRandom.uuid
-      command_bus.call(Data::Commands::CreateRow.new(new_id, creation_params.fetch(:data), created_by))
-      respond(read_model.find(params[:id])
+      command_bus.call(create_command)
+      respond(read_model.find(params[:id]))
       # id = new_id
       # repository.with_aggregate(Data::Row.new(id), stream_name(id)) do |row|
-      #   row.upload(creation_params.fetch(:data))
+      #   row.upload(create_params.fetch(:data))
       # end
 
       # respond(repository.load(Data::Row.new(id), stream_name(id)))
     end
 
     def update
-      updated_by = SecureRandom.uuid
-      command_bus.call(Data::Commands::UpdateRow.new(new_id, update_params.fetch(:data), updated_by))
-      respond(read_model.find(params[:id])
+      command_bus.call(update_command)
+      respond(read_model.find(params[:id]))
       # id = params[:id]
       # result = repository.with_aggregate(Data::Row.new(id), stream_name) do |row|
       #   row.update_data(update_params.fetch(:data))
@@ -46,8 +44,18 @@ module Api
 
     private
 
-    def creation_params
+   def create_command
+     created_by = SecureRandom.uuid
+     Data::Commands::CreateRow.new(new_id, create_params.fetch(:data), created_by)
+   end
+
+    def create_params
       params.permit!
+    end
+
+    def update_command
+      updated_by = SecureRandom.uuid
+      Data::Commands::UpdateRow.new(new_id, update_params.fetch(:data), updated_by)
     end
 
     def update_params
