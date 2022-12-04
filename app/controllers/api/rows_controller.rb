@@ -47,12 +47,8 @@ module Api
       params.permit!.slice(:data)
     end
 
-    def resource_klass
-      Data::Row
-    end
-
-    def resource_representer_klass
-      RowRepresenter
+    def read_model
+      RowReadModel.new
     end
   end
 end

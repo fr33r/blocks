@@ -8,6 +8,7 @@ class RowCollectionRepresenter < Roar::Decorator
 
   items class: Row do
     property :id
+    property :state
     property :data_hash, as: :hash
     property :data
   end

@@ -8,7 +8,7 @@ class Row < ApplicationRecord
   enum state: STATE_ENUM_VALUES, _suffix: true
   
   # scopes.
-  scope :with_hash, ->(hash) { where(hash: hash) }
+  scope :with_hash, ->(hash) { where(data_hash: hash) }
 
   # aliases.
   alias_attribute :uploaded_at, :created_at

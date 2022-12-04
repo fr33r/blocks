@@ -27,19 +27,27 @@ class RowReadModel
   end
 
   def with_hash(hash)
-    scope.with_hash(hash)
+    @scope = scope.with_hash(hash)
+    self
   end
 
   def with_state(state)
-    scope.send("#{state}_state".to_sym)
+    @scope = scope.send("#{state}_state".to_sym)
+    self
   end
 
-  def limit(limit = 25)
-    scope.limit(limit)
+  def with_limit(limit = 25)
+    @scope = scope.limit(limit)
+    self
   end
 
-  def offset(offset = 0)
-    scope.offset(offset)
+  def with_offset(offset = 0)
+    @scope = scope.offset(offset)
+    self
+  end
+
+  def scope
+    @scope ||= Row.where(nil)
   end
 
   private
@@ -80,9 +88,5 @@ class RowReadModel
   def ingest_row!(event_data)
     attribute_names = %i[updated_at]
     Row.update!(**event_data.slice(*attribute_names))
-  end
-
-  def scope
-    @scope ||= Row
   end
 end
