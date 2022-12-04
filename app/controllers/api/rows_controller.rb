@@ -2,44 +2,29 @@
 
 module Api
   class RowsController < ApplicationController
+    include Roar::Rails::ControllerAdditions
+    include Roar::Rails::ControllerAdditions::Render
+
+    represents :json, :entity => RowRepresenter, :collection => RowCollectionRepresenter
+
     def index
-      respond(read_model.all)
+      render json: read_model.all
     end
 
     def show
-      respond(read_model.find(params[:id]))
-
-#       row = repository.load(Data::Row.new(params[:id]), stream_name)
-
-#       respond(row)
+      render json: read_model.find(params[:id])
     end
 
     def create
-      command_bus.call(create_command)
-      respond(read_model.find(params[:id]))
-      # id = new_id
-      # repository.with_aggregate(Data::Row.new(id), stream_name(id)) do |row|
-      #   row.upload(create_params.fetch(:data))
-      # end
-
-      # respond(repository.load(Data::Row.new(id), stream_name(id)))
+      command = create_command
+      command_bus.call(command)
+      render json: read_model.find(command.id)
     end
 
     def update
-      command_bus.call(update_command)
-      respond(read_model.find(params[:id]))
-      # id = params[:id]
-      # result = repository.with_aggregate(Data::Row.new(id), stream_name) do |row|
-      #   row.update_data(update_params.fetch(:data))
-      # end
-
-      # # build read model.
-      # # DataRow.update!(
-      # #   state: result.state,
-      # #   data: result.data,
-      # # )
-
-      # respond(repository.load(Data::Row.new(id), stream_name(id)))
+      command = update_command
+      command_bus.call(command)
+      render json: read_model.find(command.id)
     end
 
     private
@@ -50,16 +35,16 @@ module Api
    end
 
     def create_params
-      params.permit!
+      params.permit!.slice(:data)
     end
 
     def update_command
       updated_by = SecureRandom.uuid
-      Data::Commands::UpdateRow.new(new_id, update_params.fetch(:data), updated_by)
+      Data::Commands::UpdateRow.new(params[:id], update_params.fetch(:data), updated_by)
     end
 
     def update_params
-      params.permit!
+      params.permit!.slice(:data)
     end
 
     def resource_klass

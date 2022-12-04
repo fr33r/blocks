@@ -45,17 +45,21 @@ class RowReadModel
   private
 
   def create_row!(event_data)
-    attributes_names = %i[id data uploaded_by uploaded_at updated_by updated_at]
+    attributes_names = %i[id state hash data uploaded_by uploaded_at updated_by updated_at]
     attributes = event_data.slice(*attributes_names)
     attributes[:created_at] = attributes.delete(:uploaded_at)
     attributes[:created_by] = attributes.delete(:uploaded_by)
-    Row.create!(**attributes)
+    attributes[:data_hash] = attributes.delete(:hash)
+    row = Row.new(**attributes)
+    row.id = attributes.fetch(:id)
+    row.save!
   end
 
   def update_row!(event_data)
     attributes_names = %i[data updated_by updated_at]
     attributes = event_data.slice(*attributes_names)
-    Row.update!(**event_data.slice(*attributes_names))
+    attributes[:data_hash] = attributes.delete(:hash)
+    Row.update!(**attributes)
   end
 
   def validate_row!(event_data)

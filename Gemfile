@@ -43,6 +43,8 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
 
 gem "roar"
+gem "responders"
+gem "roar-rails"
 gem "multi_json"
 gem "json_logic"
 

@@ -8,9 +8,10 @@ class RowRepresenter < Roar::Decorator
 
   property :id
   property :state
-  property :hash
+  property :data_hash, as: :hash
   property :data
   property :uploaded_at
-  property :ingested_at
-  property :filtered_at
+  property :uploaded_by
+  property :updated_at
+  property :updated_by
 end

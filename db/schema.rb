@@ -40,13 +40,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_03_200040) do
 
   create_table "rows", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "state"
-    t.string "hash"
+    t.string "data_hash"
     t.jsonb "data"
     t.uuid "created_by"
     t.uuid "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["hash"], name: "index_rows_on_hash"
+    t.index ["data_hash"], name: "index_rows_on_data_hash"
   end
 
 end
