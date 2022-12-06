@@ -47,6 +47,7 @@ gem "responders"
 gem "roar-rails"
 gem "multi_json"
 gem "json_logic"
+gem "view_component"
 
 # Use Sass to process CSS
 # gem "sassc-rails"
@@ -79,3 +80,5 @@ group :test do
   gem "webdrivers"
 end
 gem "rails_event_store", "~> 2.5.1"
+
+gem "tailwindcss-rails", "~> 2.0"
