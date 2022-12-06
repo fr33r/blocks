@@ -1,0 +1,24 @@
+<table class="border-collapse text-center bg-zinc-800 mx-auto rounded-md table-fixed w-full">
+  <thead>
+    <tr>
+      <th class="p-5">ID</th>
+      <th class="p-5">Hash</th>
+      <th class="p-5">State</th>
+      <th class="p-5">Data</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @rows.each do |row| %>
+      <tr class="hover:bg-zinc-600 hover:cursor-pointer odd:bg-zinc-700">
+        <td class="font-mono pt-3 pb-3 border-y border-zinc-700 "><%= row.id %></td>
+        <td class="font-mono pt-3 pb-3 border-y border-zinc-700 "><%= row.hash %></td>
+        <td class="pt-3 pb-3 border-y border-zinc-700 ">
+          <%= render(PillComponent.new(state: row.state)) %>
+        </td>
+        <td class="font-mono pt-3 pb-3 border-y border-zinc-700 whitespace-nowrap truncate">
+          <%= row.data %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
