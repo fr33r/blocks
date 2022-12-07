@@ -1,1 +1,12 @@
-<%= render(RowTableComponent.new(rows: @rows)) %>
+<div class="container flex-col">
+  <div class="container mb-5">
+  <%= form_with url: "/rows", method: :get do |form| %>
+    <div>
+      <%= form.search_field :query, placeholder: 'state:uploaded COLUMN_NAME:some_value, etc.' %>
+    </div>
+  <% end %>
+  </div>
+  <div class="container">
+    <%= render(RowTableComponent.new(rows: @rows)) %>
+  </div>
+</div>

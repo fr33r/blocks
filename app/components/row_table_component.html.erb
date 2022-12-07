@@ -9,16 +9,7 @@
   </thead>
   <tbody>
     <% @rows.each do |row| %>
-      <tr class="hover:bg-zinc-600 hover:cursor-pointer odd:bg-zinc-700">
-        <td class="font-mono pt-3 pb-3 border-y border-zinc-700 "><%= row.id %></td>
-        <td class="font-mono pt-3 pb-3 border-y border-zinc-700 "><%= row.hash %></td>
-        <td class="pt-3 pb-3 border-y border-zinc-700 ">
-          <%= render(PillComponent.new(state: row.state)) %>
-        </td>
-        <td class="font-mono pt-3 pb-3 border-y border-zinc-700 whitespace-nowrap truncate">
-          <%= row.data %>
-        </td>
-      </tr>
+      <%= render(RowTableRowComponent.new(row: row)) %>
     <% end %>
   </tbody>
 </table>

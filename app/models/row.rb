@@ -9,7 +9,12 @@ class Row < ApplicationRecord
   
   # scopes.
   scope :with_hash, ->(hash) { where(data_hash: hash) }
-
+  scope :with_state, ->(state) { where(state: state) }
+  scope :with_data, lambda { |data|
+    data_as_json = data.to_json
+    where('? <@ data', data_as_json)
+  }
+  scope :with_id, ->(id) { where(id: id) }
   # aliases.
   alias_attribute :uploaded_at, :created_at
   alias_attribute :uploaded_by, :created_by

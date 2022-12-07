@@ -1,0 +1,20 @@
+<tr class="hover:bg-zinc-600 hover:cursor-pointer odd:bg-zinc-700">
+  <td class="font-mono pt-3 pb-3 border-y border-zinc-700 "><%= @row.id %></td>
+  <td class="font-mono pt-3 pb-3 border-y border-zinc-700 "><%= @row.data_hash %></td>
+  <td class="pt-3 pb-3 border-y border-zinc-700 ">
+    <% if @row.uploaded_state? %>
+      <%= render(UploadedStatusPillComponent.new) %>
+    <% elsif @row.valid_state? %>
+      <%= render(ValidStatusPillComponent.new) %>
+    <% elsif @row.invalid_state? %>
+      <%= render(InvalidStatusPillComponent.new) %>
+    <% elsif @row.filtered_state? %>
+      <%= render(FilteredStatusPillComponent.new) %>
+    <% elsif @row.ingested_state? %>
+      <%= render(IngestedStatusPillComponent.new) %>
+    <% end %>
+  </td>
+  <td class="font-mono pt-3 pb-3 border-y border-zinc-700 whitespace-nowrap truncate">
+    <%= @row.data %>
+  </td>
+</tr>

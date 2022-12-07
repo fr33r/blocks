@@ -24,8 +24,6 @@ module Data
     attr_reader :state
     attr_reader :uploaded_at
     attr_reader :hash
-    attr_reader :ingested_at
-    attr_reader :filtered_at
     attr_reader :data
 
     def initialize(id, hasher = ::Hashers::Md5)
@@ -83,7 +81,6 @@ module Data
     on Events::RowFiltered do |event|
       @state = event.data.fetch(:state)
       @updated_at = event.data.fetch(:updated_at)
-      @filtered_at = event.data.fetch(:filtered_at)
     end
 
     on Events::RowInvalidated do |event|
@@ -99,7 +96,6 @@ module Data
     on Events::RowIngested do |event|
       @state = event.data.fetch(:state)
       @updated_at = event.data.fetch(:updated_at)
-      @ingested_at = event.data.fetch(:ingested_at)
     end
 
     private
