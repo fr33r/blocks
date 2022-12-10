@@ -22,15 +22,23 @@ module Evaluation
     attr_reader :name
     attr_reader :description
     attr_reader :template
-    attr_reader :activated_at
-    attr_reader :inactivated_at
-    attr_reader :created_by
     attr_reader :created_at
+    attr_reader :created_by
     attr_reader :updated_at
     attr_reader :updated_by
     
-    def initialize(id)
-      @id = id
+    def initialize(kwargs)
+      @id = kwargs.fetch(:id) || SecureRandom.uuid
+      @state = kwargs.fetch(:state) || State::INACTIVE
+      @type = kwargs.fetch(:type)
+      @condition = kwargs.fetch(:condition)
+      @name = kwargs.fetch(:name)
+      @description = kwargs.fetch(:description)
+      @template_id = kwargs.fetch(:template_id)
+      @created_by = kwargs.fetch(:created_by)
+      @created_at = kwargs.fetch(:created_at) || Time.now
+      @updated_by = kwargs.fetch(:updated_by)
+      @updated_at = kwargs.fetch(:updated_at) || Time.now
     end
 
     def inactive?
@@ -41,55 +49,45 @@ module Evaluation
       state == State::ACTIVE
     end
 
-    def create(kwargs)
-      kwargs[:created_at] = Time.now
-      apply Events::RuleCreated.new(data: kwargs)
+    def activate(updated_by:, updated_at: Time.now)
+      @updated_by = updated_by
+      @updated_at = updated_at
+      @state = State::ACTIVE
     end
 
-    def activate(updated_by:)
-      event_data = { updated_at: Time.now, activated_at: Time.now, updated_by: updated_by }
-      apply Events::RuleActivated.new(data: event_data)
-
-    def inactivate(updated_by:)
-      event_data = { updated_at: Time.now, inactivated_at: Time.now, updated_by: updated_by }
-      apply Events::RuleInactivated.new(data: event_data)
+    def inactivate(updated_by:, updated_at: Time.now)
+      @updated_by = updated_by
+      @updated_at = updated_at
+      @state = State::INACTIVE
     end
 
-    def execute(row)
-      matched = JSONLogic.apply(condition, row.data)
+    def match?(row)
+      JSONLogic.apply(condition, row.data)
+    end
+
+    def filter?
+      type == Type::FILTER
+    end
+
+    def validation?
+      type == Type::VALIDATION
+    end
+
+    def execute!(row)
       fail InvalidExecution.new('cannot execute inactive rule') if inactive?
 
-      row.filter if matched && type == Type::FILTER
-      if type == Type::VALIDATION
-        matched ? row.validate : row.invalidate
+      matched = match?(row)
+      if match
+        if filter?
+          # maybe want to think of a way to pass along which rule filtered the row?
+          row.filter
+          return
+        end
+
+        if validation?
+          return Row::Error.new(failure_message, self.id)
+        end
       end
-    end
-
-    on Events::RuleCreated do |event|
-      @state = State::INACTIVE
-      @type = event.data.fetch(:type)
-      @condition = event.data.fetch(:condition)
-      @name = event.data.fetch(:name)
-      @description = event.data.fetch(:description)
-      @template = event.data.fetch(:template)
-      @created_at = event.data.fetch(:created_at)
-      @created_by = event.data.fetch(:created_by)
-      @updated_at = created_at
-      @updated_by = created_by
-    end
-
-    on Events::RuleActivated do |event|
-      @state = State::ACTIVE
-      @activated_at = event.data.fetch(:activated_at)
-      @updated_at = event.data.fetch(:updated_at)
-      @updated_by = event.data.fetch(:updated_by)
-    end
-
-    on Events::RuleInactivated do |event|
-      @state = State::INACTIVE
-      @inactivated_at = event.data.fetch(:inactivated_at)
-      @updated_at = event.data.fetch(:updated_at)
-      @updated_by = event.data.fetch(:updated_by)
     end
   end
 end

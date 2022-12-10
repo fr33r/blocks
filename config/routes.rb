@@ -6,6 +6,9 @@ Rails.application.routes.draw do
       resources :files, only: %i[index show create] do
         resources :rows, only: %i[index show create update]
       end
+      resources :pipelines, only: %i[index show create] do
+        resources :rules, only: %i[index show create update]
+      end
     end
   end
 

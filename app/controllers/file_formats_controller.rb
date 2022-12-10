@@ -1,0 +1,2 @@
+class FileFormatsController < ApplicationController
+end

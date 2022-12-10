@@ -1,0 +1,2 @@
+class RowError < ApplicationRecord
+end

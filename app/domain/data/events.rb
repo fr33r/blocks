@@ -34,5 +34,15 @@ module Data
     class FileFormatActivated < RailsEventStore::Event; end
     # Domain event that occurs when the file format is inactivated.
     class FileFormatInactivated < RailsEventStore::Event; end
+
+    # ====== CONSTANTS ====== #
+    ALL = [
+      RowUploaded,
+      RowUpdated,
+      RowValidated,
+      RowInvalidated,
+      RowFiltered,
+      RowIngested,
+    ]
   end
 end

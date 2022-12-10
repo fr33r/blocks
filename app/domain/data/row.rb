@@ -4,6 +4,16 @@ module Data
   class Row
     include AggregateRoot
 
+    class Error
+      attr_reader :message
+      attr_reader :rule_id
+
+      def initialize(message, rule_id)
+        @message = message
+        @rule_id = rule_id
+      end
+    end
+
     class State
       UPLOADED = :uploaded
       VALID    = :valid
@@ -25,6 +35,7 @@ module Data
     attr_reader :uploaded_at
     attr_reader :hash
     attr_reader :data
+    attr_reader :errors
 
     def initialize(id, hasher = ::Hashers::Md5)
       @id = id
@@ -48,12 +59,30 @@ module Data
       apply Events::RowUploaded.new(data: event_data)
     end
 
-    def validate
-      apply Events::RowValidated.new(data: { state: State::VALID, updated_at: Time.now })
-    end
+    def evaluate(pipeline)
+      # reference the pipeline of the report format that is associated with this
+      # row and execute it against this row? trigger this method on create and update events
+      # and maybe when the pipeline is changed?
 
-    def invalidate
-      apply Events::RowInvalidated.new(data: { state: State::INVALID, updated_at: Time.now })
+      # potential invariants:
+      # - if there is > 0 errors, the state is INVALID.
+      # - if there is 0 errors and the row has been evaluated, the state is VALID.
+      # - cannot evaluate if the status INGESTED.
+
+      # not a fan of this method. but...
+
+      # is this the only way if we want to ensure our list of errors is synced
+      # with rule executions? since this method would execute all rules for the row,
+      # the errors could be wiped clean at the beginning and appended to as they execute.
+
+      errors = pipeline.execute!(self)
+      if errors.count.positive?
+        event_data = { errors: errors, state: State::INVALID, updated_at: Time.now }
+        apply Events::RowInvalidated.new(data: event_data)
+      else
+        event_data = { errors: errors, state: State::VALID, updated_at: Time.now }
+        apply Events::RowValidated.new(data: event_data)
+      end
     end
 
     def filter

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_03_200040) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_10_070133) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -38,6 +38,21 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_03_200040) do
     t.index ["stream", "position"], name: "index_event_store_events_in_streams_on_stream_and_position", unique: true
   end
 
+  create_table "pipelines", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "row_errors", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "message", null: false
+    t.bigint "rules_id"
+    t.bigint "rows_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["rows_id"], name: "index_row_errors_on_rows_id"
+    t.index ["rules_id"], name: "index_row_errors_on_rules_id"
+  end
+
   create_table "rows", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "state"
     t.string "data_hash"
@@ -47,6 +62,21 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_03_200040) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["data_hash"], name: "index_rows_on_data_hash"
+  end
+
+  create_table "rules", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "type", null: false
+    t.string "state", null: false
+    t.string "name", null: false
+    t.string "description"
+    t.jsonb "condition", null: false
+    t.uuid "created_by"
+    t.uuid "updated_by"
+    t.bigint "pipelines_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_rules_on_name"
+    t.index ["pipelines_id"], name: "index_rules_on_pipelines_id"
   end
 
 end

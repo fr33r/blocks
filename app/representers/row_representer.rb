@@ -10,6 +10,7 @@ class RowRepresenter < Roar::Decorator
   property :state
   property :data_hash, as: :hash
   property :data
+  collection :errors, extend: RowErrorRepresenter, class: RowError
   property :uploaded_at
   property :uploaded_by
   property :updated_at
