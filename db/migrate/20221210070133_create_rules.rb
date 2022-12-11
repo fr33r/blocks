@@ -1,7 +1,7 @@
 class CreateRules < ActiveRecord::Migration[7.0]
   def change
     create_table :rules, id: :uuid do |t|
-      t.string :type, null: false
+      t.string :rule_type, null: false
       t.string :state, null: false
       t.string :name, null: false
       t.string :description

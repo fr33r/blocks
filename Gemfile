@@ -48,6 +48,10 @@ gem "roar-rails"
 gem "multi_json"
 gem "json_logic"
 gem "view_component"
+gem "rswag-api"
+gem "rswag-ui"
+gem "rails_event_store", "~> 2.5.1"
+gem "tailwindcss-rails", "~> 2.0"
 
 # Use Sass to process CSS
 # gem "sassc-rails"
@@ -59,6 +63,7 @@ group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
   gem "rspec-rails"
+  gem 'rswag-specs'
 end
 
 group :development do
@@ -78,7 +83,5 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
+  gem 'shoulda-matchers', '~> 5.0'
 end
-gem "rails_event_store", "~> 2.5.1"
-
-gem "tailwindcss-rails", "~> 2.0"

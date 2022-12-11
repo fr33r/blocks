@@ -65,7 +65,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_10_070133) do
   end
 
   create_table "rules", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "type", null: false
+    t.string "rule_type", null: false
     t.string "state", null: false
     t.string "name", null: false
     t.string "description"

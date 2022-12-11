@@ -35,13 +35,13 @@ class RuleReadModel
       condition
       name
       description
-      templated_id
       created_by
       created_at
       updated_by
       updated_at
     ]
     attributes = event_data.slice(*attributes_names)
+    attributes[:rule_type] = attributes.delete(:type)
     rule = Rule.new(**attributes)
     rule.id = attributes.fetch(:id)
     rule.save!

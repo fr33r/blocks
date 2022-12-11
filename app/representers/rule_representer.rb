@@ -8,11 +8,11 @@ class RuleRepresenter < Roar::Decorator
 
   property :id
   property :state
-  property :type
+  property :rule_type, as: :type
   property :condition
   property :name
   property :description
-  property :template_id
+  # property :template_id
   property :created_at
   property :created_by
   property :updated_at
