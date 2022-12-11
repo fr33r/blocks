@@ -50,6 +50,11 @@ class RowReadModel
     @scope ||= Row.where(nil)
   end
 
+  def self.configure(event_store)
+    handler = ->(event) { self.new.handle(event) }
+    event_store.subscribe(handler, to: Data::Events::ALL)
+  end
+
   private
 
   def create_row!(event_data)
@@ -88,10 +93,5 @@ class RowReadModel
   def ingest_row!(event_data)
     attribute_names = %i[updated_at]
     Row.update!(**event_data.slice(*attribute_names))
-  end
-
-  def self.configure(event_store)
-    handler = ->(event) { self.new.handle(event) }
-    event_store.subscribe(handler, to: Data::Events::ALL)
   end
 end

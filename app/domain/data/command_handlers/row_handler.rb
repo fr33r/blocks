@@ -2,11 +2,7 @@
 
 module Data
   module CommandHandlers
-    class RowHandler < Handler
-      def initialize(event_store)
-        super(event_store)
-      end
-
+    class RowHandler < ::CommandHandlers::Handler
       private
       
       def with_row(id, &block)
@@ -14,11 +10,7 @@ module Data
       end
 
       def stream_name(id)
-        "Row$#{id}"
-      end
-
-      def repository
-        AggregateRoot::Repository.new(event_store)
+        "#{Row.to_s}$#{id}"
       end
     end
   end

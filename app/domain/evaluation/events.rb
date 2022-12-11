@@ -5,11 +5,11 @@ module Evaluation
     # ====== RULE ====== #
 
     # Domain event that occurs when the rule is created.
-    class RuleCreated < RailsEventStore::Event; end
+    class PipelineRuleCreated < RailsEventStore::Event; end
     # Domain event that occurs when the rule is activated.
-    class RuleActivated < RailsEventStore::Event; end
+    class PipelineRuleActivated < RailsEventStore::Event; end
     # Domain event that occurs when the rule is inactivated.
-    class RuleInactivated < RailsEventStore::Event; end
+    class PipelineRuleInactivated < RailsEventStore::Event; end
 
     # ====== PIPELINE ====== #
 
@@ -19,5 +19,13 @@ module Evaluation
     class PipelineActivated < RailsEventStore::Event; end
     # Domain event that occurs when the pipeline is inactivated.
     class PipelineInactivated < RailsEventStore::Event; end
+
+    # ====== CONSTANTS ====== #
+    ALL = [
+      PipelineRuleCreated,
+      PipelineRuleActivated,
+      PipelineRuleInactivated,
+      PipelineCreated,
+    ]
   end
 end

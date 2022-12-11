@@ -26,5 +26,14 @@ module Api
     def read_model
       PipelineReadModel.new
     end
+
+   def create_command
+     created_by = SecureRandom.uuid
+     Data::Commands::CreateRow.new(**create_params, created_by: created_by)
+   end
+
+    def create_params
+      params.permit!
+    end
   end
 end

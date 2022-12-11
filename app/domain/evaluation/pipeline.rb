@@ -7,6 +7,7 @@ module Evaluation
     attr_reader :id
     attr_reader :rules
     attr_reader :created_at
+    attr_reader :updated_at
 
     def initialize(id)
       @id = id
@@ -25,6 +26,7 @@ module Evaluation
     def activate_rule(rule_id:, updated_by:)
       event_data = { rule_id: rule_id, rule_updated_at: Time.now, rule_updated_by: updated_by }
       apply Events::PipelineRuleActivated.new(data: event_data)
+    end
 
     def inactivate_rule(rule_id:, updated_by:)
       event_data = { rule_id: rule_id, rule_updated_at: Time.now, rule_updated_by: updated_by }
@@ -43,7 +45,7 @@ module Evaluation
     end
 
     on Events::PipelineRuleCreated do |event|
-      rule_data = event_data.fetch(:rule)
+      rule_data = event.data.fetch(:rule)
       rule = Rule.new(rule_data)
       @rule[rule.id] = rule
     end

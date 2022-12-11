@@ -28,17 +28,17 @@ module Evaluation
     attr_reader :updated_by
     
     def initialize(kwargs)
-      @id = kwargs.fetch(:id) || SecureRandom.uuid
-      @state = kwargs.fetch(:state) || State::INACTIVE
+      @id = kwargs.fetch(:id, SecureRandom.uuid)
+      @state = kwargs.fetch(:state, State::INACTIVE)
       @type = kwargs.fetch(:type)
       @condition = kwargs.fetch(:condition)
       @name = kwargs.fetch(:name)
       @description = kwargs.fetch(:description)
-      @template_id = kwargs.fetch(:template_id)
+      @template_id = kwargs.fetch(:template_id, nil)
       @created_by = kwargs.fetch(:created_by)
-      @created_at = kwargs.fetch(:created_at) || Time.now
-      @updated_by = kwargs.fetch(:updated_by)
-      @updated_at = kwargs.fetch(:updated_at) || Time.now
+      @created_at = kwargs.fetch(:created_at, Time.now)
+      @updated_by = kwargs.fetch(:updated_by, @created_by)
+      @updated_at = kwargs.fetch(:updated_at, Time.now)
     end
 
     def inactive?

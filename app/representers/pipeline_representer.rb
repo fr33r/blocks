@@ -14,4 +14,3 @@ class PipelineRepresenter < Roar::Decorator
   property :updated_at
   property :updated_by
 end
-

@@ -13,6 +13,9 @@ Rails.configuration.to_prepare do
   # Subscribe event handlers below.
   Rails.configuration.event_store.tap do |store|
     RowReadModel.configure(store)
+    PipelineReadModel.configure(store)
+    RuleReadModel.configure(store)
+
     store.subscribe_to_all_events(RailsEventStore::LinkByEventType.new)
     store.subscribe_to_all_events(RailsEventStore::LinkByCorrelationId.new)
     store.subscribe_to_all_events(RailsEventStore::LinkByCausationId.new)
@@ -22,5 +25,6 @@ Rails.configuration.to_prepare do
   Rails.configuration.command_bus.tap do |bus|
     store = Rails.configuration.event_store
     Data::CommandHandlers::Configuration.call(store, bus)
+    Evaluation::CommandHandlers::Configuration.call(store, bus)
   end
 end
