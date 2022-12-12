@@ -45,12 +45,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_10_070133) do
 
   create_table "row_errors", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "message", null: false
-    t.bigint "rules_id"
-    t.bigint "rows_id"
+    t.uuid "rule_id"
+    t.uuid "row_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["rows_id"], name: "index_row_errors_on_rows_id"
-    t.index ["rules_id"], name: "index_row_errors_on_rules_id"
+    t.index ["row_id"], name: "index_row_errors_on_row_id"
+    t.index ["rule_id"], name: "index_row_errors_on_rule_id"
   end
 
   create_table "rows", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Row < ApplicationRecord
+  # associations.
+  has_many :row_errors
+
   # enum values.
   STATE_ENUM_VALUES = Data::Row::STATES.to_h { |state| [state, state.to_s] }
 

@@ -18,7 +18,7 @@ module Api
     def create
       command = create_command
       command_bus.call(command)
-      render json: read_model.find(command.id)
+      render json: read_model.find(command.id), status: :created
     end
 
     def update
