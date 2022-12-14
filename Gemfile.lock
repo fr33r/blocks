@@ -116,6 +116,7 @@ GEM
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    json-patch (1.0.0)
     json-schema (3.0.0)
       addressable (>= 2.8)
     json_logic (0.4.7)
@@ -306,6 +307,7 @@ DEPENDENCIES
   faker
   importmap-rails
   jbuilder
+  json-patch
   json_logic
   multi_json
   pg (~> 1.1)

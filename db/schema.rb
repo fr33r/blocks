@@ -72,11 +72,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_10_070133) do
     t.jsonb "condition", null: false
     t.uuid "created_by"
     t.uuid "updated_by"
-    t.bigint "pipelines_id"
+    t.uuid "pipeline_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_rules_on_name"
-    t.index ["pipelines_id"], name: "index_rules_on_pipelines_id"
+    t.index ["pipeline_id"], name: "index_rules_on_pipeline_id"
   end
 
 end

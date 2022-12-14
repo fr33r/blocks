@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Api
-  class RowsController < ApplicationController
+  class FilesController < ApplicationController
     def index
       # use projection instead.
     end

@@ -27,12 +27,40 @@ module Api
       render json: read_model.find(command.id)
     end
 
+    def patch
+      row = read_model.find(params[:id])
+      serialized_row = RowRepresenter.new(row).serialize
+      patched_representation = JSON::Patch.new(serialized_row, patch_operations).call
+      updated_by = SecureRandom.uuid
+      command = Data::Commands::UpdateRow.new(row.id, patched_representation, updated_by)
+      command_bus.call(command)
+      render json: read_model.find(command.id)
+    end
+
+    def patch_collection
+      # validate operations.
+      additions = patch_operation.map do |operation|
+        operation['value'] if operation['op'] == 'add'
+      end.compact
+
+      # do this async.
+      additions.each do |addition|
+        created_by = SecureRandom.uuid
+        command = Data::Commands::CreateRow.new(new_uuid, addition, created_by)
+        command_bus.call(command)
+      end
+    end
+
     private
 
-   def create_command
-     created_by = SecureRandom.uuid
-     Data::Commands::CreateRow.new(new_id, create_params.fetch(:data), created_by)
-   end
+    def patch_operations
+      params.permit(array: %i[path op value])['array'].map(&:to_h)
+    end
+
+    def create_command
+      created_by = SecureRandom.uuid
+      Data::Commands::CreateRow.new(new_id, create_params.fetch(:data), created_by)
+    end
 
     def create_params
       params.permit!.slice(:data)

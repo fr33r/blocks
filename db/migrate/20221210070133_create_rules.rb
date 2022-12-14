@@ -8,7 +8,7 @@ class CreateRules < ActiveRecord::Migration[7.0]
       t.jsonb :condition, null: false
       t.uuid :created_by
       t.uuid :updated_by
-      t.belongs_to :pipelines
+      t.belongs_to :pipeline, type: :uuid
       t.timestamps
     end
 

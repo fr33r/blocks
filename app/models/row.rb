@@ -18,6 +18,7 @@ class Row < ApplicationRecord
     where('? <@ data', data_as_json)
   }
   scope :with_id, ->(id) { where(id: id) }
+
   # aliases.
   alias_attribute :uploaded_at, :created_at
   alias_attribute :uploaded_by, :created_by
