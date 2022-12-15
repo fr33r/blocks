@@ -4,6 +4,106 @@ info:
   title: Blocks API
   version: v1
 paths:
+  "/api/formats":
+    post:
+      summary: Creates new file format
+      tags:
+      - Formats
+      parameters: []
+      responses:
+        '201':
+          description: Format created
+    get:
+      summary: Retrieves collection of formats
+      tags:
+      - Formats
+      responses:
+        '200':
+          description: Collection retrieved
+  "/api/formats/{id}":
+    get:
+      summary: Retrieves a single file format
+      tags:
+      - Formats
+      parameters:
+      - name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Format retrieved
+  "/api/formats/{format_id}/files":
+    post:
+      summary: Creates new file
+      tags:
+      - Files
+      parameters:
+      - name: format_id
+        in: path
+        required: true
+      responses:
+        '201':
+          description: Format created
+    get:
+      summary: Retrieves collection of files
+      tags:
+      - Files
+      responses:
+        '200':
+          description: Collection retrieved
+  "/api/formats/{format_id}/files/{id}":
+    get:
+      summary: Retrieves a single file
+      tags:
+      - Files
+      parameters:
+      - name: id
+        in: path
+        required: true
+      - name: format_id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: File retrieved
+  "/api/formats/{format_id}/pipelines":
+    post:
+      summary: Creates new pipeline
+      tags:
+      - Pipelines
+      parameters:
+      - name: format_id
+        in: path
+        required: true
+      responses:
+        '201':
+          description: Pipeline created
+    get:
+      summary: Retrieves collection of pipelines
+      tags:
+      - Pipelines
+      parameters:
+      - name: format_id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Collection retrieved
+  "/api/formats/{format_id}/pipelines/{id}":
+    get:
+      summary: Retrieves a single pipeline
+      tags:
+      - Pipelines
+      parameters:
+      - name: format_id
+        in: path
+        required: true
+      - name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Pipeline retrieved
   "/api/formats/{format_id}/files/{file_id}/rows":
     post:
       summary: Creates new row

@@ -12,6 +12,9 @@ module Evaluation
       INACTIVE = :inactive
     end
 
+    STATES = [State::ACTIVE, State::INACTIVE].freeze
+    TYPES = [Type::FILTER, Type::VALIDATION].freeze
+
     class InvalidExecution < StandardError
     end
 

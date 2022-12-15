@@ -1,24 +1,25 @@
 require 'rails_helper'
 require 'swagger_helper'
 
-RSpec.describe "Api::FileFormats", type: :request do
-  path '/api/formats' do
-    post 'Creates new file format' do
-      tags 'Formats'
+RSpec.describe "Api::Files", type: :request do
+  path '/api/formats/{format_id}/files' do
+    post 'Creates new file' do
+      tags 'Files'
       consumes 'application/json'
       produces 'application/json'
-      parameter name: :format, in: :body, required: true
+      parameter name: :file, in: :body, required: true
+      parameter name: :format_id, in: :path, required: true
 
       response '201', 'Format created' do
-        let(:format) do
+        let(:file) do
           {}
         end
         run_test!
       end
     end
 
-    get 'Retrieves collection of formats' do
-      tags 'Formats'
+    get 'Retrieves collection of files' do
+      tags 'Files'
       produces 'application/json'
 
       response '200', 'Collection retrieved' do
@@ -36,15 +37,16 @@ RSpec.describe "Api::FileFormats", type: :request do
     end
   end
 
-  path '/api/formats/{id}' do
-    get 'Retrieves a single file format' do
-      tags 'Formats'
+  path '/api/formats/{format_id}/files/{id}' do
+    get 'Retrieves a single file' do
+      tags 'Files'
       produces 'application/json'
       parameter name: :id, in: :path, required: true
+      parameter name: :format_id, in: :path, required: true
 
-      response '200', 'Format retrieved' do
+      response '200', 'File retrieved' do
         let(:id) { SecureRandom.uuid }
-        let!(:existing_format) do
+        let!(:existing_file) do
           {}
         end
 
