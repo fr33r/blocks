@@ -30,9 +30,17 @@ FactoryBot.define do
       state { Data::Row::State::VALID }
     end
 
+    transient do
+      error_count { 0 }
+    end
+
     trait :invalid do
       state { Data::Row::State::VALID }
-      row_errors { [ association(:row_error) ] }
+      error_count { 1 }
+    end
+
+    after(:create) do |row, eval|
+      create_list(:row_error, eval.error_count, row: row)
     end
   end
 end

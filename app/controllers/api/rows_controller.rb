@@ -29,24 +29,26 @@ module Api
 
     def patch
       row = read_model.find(params[:id])
-      serialized_row = RowRepresenter.new(row).serialize
+      serialized_row = RowRepresenter.new(row).to_hash
       patched_representation = JSON::Patch.new(serialized_row, patch_operations).call
       updated_by = SecureRandom.uuid
-      command = Data::Commands::UpdateRow.new(row.id, patched_representation, updated_by)
+      patched_data = patched_representation['data']
+      command = Data::Commands::UpdateRow.new(row.id, patched_data, updated_by)
       command_bus.call(command)
       render json: read_model.find(command.id)
     end
 
     def patch_collection
       # validate operations.
-      additions = patch_operation.map do |operation|
+      additions = patch_operations.map do |operation|
         operation['value'] if operation['op'] == 'add'
       end.compact
 
       # do this async.
       additions.each do |addition|
+        id = new_id
         created_by = SecureRandom.uuid
-        command = Data::Commands::CreateRow.new(new_uuid, addition, created_by)
+        command = Data::Commands::CreateRow.new(id, addition, created_by)
         command_bus.call(command)
       end
     end
@@ -54,7 +56,7 @@ module Api
     private
 
     def patch_operations
-      params.permit(array: %i[path op value])['array'].map(&:to_h)
+      params.permit!['_json'].map(&:to_h)
     end
 
     def create_command
