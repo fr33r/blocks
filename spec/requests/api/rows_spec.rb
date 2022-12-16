@@ -189,7 +189,7 @@ RSpec.describe "Api::Rows", type: :request do
         run_test! do |response|
           body = JSON.parse(response.body)
 
-          expect(body['data']).to eq({ 'COLUMN_1' => 'bang' })
+          expect(body['data']).to eq(patch_operations.first.fetch(:value))
         end
       end
     end

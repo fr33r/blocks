@@ -8,21 +8,23 @@ FactoryBot.define do
     description { 'This is a test rule' }
     created_by { Faker::Internet.uuid }
     updated_by { Faker::Internet.uuid }
+    association(:pipeline)
+    condition { {'==' => [{'var' => 'COLUMN_1'}, 'foo']} }
 
     trait :active do
-      state { Rule::State::ACTIVE }
+      state { Evaluation::Rule::State::ACTIVE }
     end
 
     trait :inactive do
-      state { Rule::State::INACTIVE }
+      state { Evaluation::Rule::State::INACTIVE }
     end
 
     trait :filter do
-      rule_type { Rule::Type::FILTER }
+      rule_type { Evaluation::Rule::Type::FILTER }
     end
 
     trait :validation do
-      rule_type { Rule::Type::VALIDATION }
+      rule_type { Evaluation::Rule::Type::VALIDATION }
     end
   end
 end

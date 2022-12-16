@@ -24,6 +24,7 @@ module Evaluation
     attr_reader :condition
     attr_reader :name
     attr_reader :description
+    attr_reader :pipeline_id
     attr_reader :template
     attr_reader :created_at
     attr_reader :created_by
@@ -36,6 +37,7 @@ module Evaluation
       @type = kwargs.fetch(:type)
       @condition = kwargs.fetch(:condition)
       @name = kwargs.fetch(:name)
+      @pipeline_id = kwargs.fetch(:pipeline_id)
       @description = kwargs.fetch(:description)
       @template_id = kwargs.fetch(:template_id, nil)
       @created_by = kwargs.fetch(:created_by)
@@ -50,6 +52,12 @@ module Evaluation
 
     def active?
       state == State::ACTIVE
+    end
+
+    def update(name:, description:, updated_by:)
+      @name = name
+      @description = description
+      @updated_by = updated_by
     end
 
     def activate(updated_by:, updated_at: Time.now)

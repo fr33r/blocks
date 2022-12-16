@@ -4,8 +4,8 @@ module Evaluation
   module CommandHandlers
     class InactivatePipelineRuleHandler < PipelineHandler
       def call(command)
-        with_pipeline(command.id) do |row|
-          pipeline.inactivate_rule(rule_id: command.rule_id, updated_by: command.updated_by)
+        with_pipeline(command.pipeline_id) do |pipeline|
+          pipeline.inactivate_rule(rule_id: command.id, updated_by: command.updated_by)
         end
       end
     end

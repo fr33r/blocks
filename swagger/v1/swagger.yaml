@@ -205,6 +205,70 @@ paths:
       responses:
         '200':
           description: Row modified
+  "/api/formats/{format_id}/pipelines/{pipeline_id}/rules":
+    post:
+      summary: Creates new rule
+      tags:
+      - Rules
+      parameters:
+      - name: format_id
+        in: path
+        required: true
+      - name: pipeline_id
+        in: path
+        required: true
+      responses:
+        '201':
+          description: Rule created
+    get:
+      summary: Retrieves collection of rules
+      tags:
+      - Rules
+      parameters:
+      - name: format_id
+        in: path
+        required: true
+      - name: pipeline_id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Collection retrieved
+  "/api/formats/{format_id}/pipelines/{pipeline_id}/rules/{id}":
+    get:
+      summary: Retrieves a single rule
+      tags:
+      - Rules
+      parameters:
+      - name: format_id
+        in: path
+        required: true
+      - name: pipeline_id
+        in: path
+        required: true
+      - name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Rule retrieved
+    patch:
+      summary: Modifies a single rule
+      tags:
+      - Rules
+      parameters:
+      - name: format_id
+        in: path
+        required: true
+      - name: pipeline_id
+        in: path
+        required: true
+      - name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Rule modified
 servers:
 - url: https://{defaultHost}
   variables:

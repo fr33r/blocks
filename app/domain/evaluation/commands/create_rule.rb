@@ -22,6 +22,7 @@ module Evaluation
         @name = args.fetch('name')
         @description = args.fetch('description')
         @template_id = args.fetch('template_id', nil)
+        @template_id = args.fetch('pipeline_id')
         @created_by = args.fetch('created_by')
         @created_at = args.fetch('created_at', Time.now)
         @updated_by = created_by

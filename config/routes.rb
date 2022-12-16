@@ -13,7 +13,9 @@ Rails.application.routes.draw do
         end
       end
       resources :pipelines, only: %i[index show create] do
-        resources :rules, only: %i[index show create update]
+        resources :rules, only: %i[index show create] do
+          match '/', to: 'rules#patch', via: %i[patch], on: :member
+        end
       end
     end
   end

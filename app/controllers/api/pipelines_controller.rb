@@ -29,7 +29,7 @@ module Api
 
    def create_command
      created_by = SecureRandom.uuid
-     Data::Commands::CreateRow.new(**create_params, created_by: created_by)
+     Data::Commands::CreatePipeline.new(**create_params, created_by: created_by)
    end
 
     def create_params

@@ -10,6 +10,8 @@ module Evaluation
     class PipelineRuleActivated < RailsEventStore::Event; end
     # Domain event that occurs when the rule is inactivated.
     class PipelineRuleInactivated < RailsEventStore::Event; end
+    # Domain event that occurs when the rule is updated.
+    class PipelineRuleUpdated < RailsEventStore::Event; end
 
     # ====== PIPELINE ====== #
 
@@ -25,6 +27,7 @@ module Evaluation
       PipelineRuleCreated,
       PipelineRuleActivated,
       PipelineRuleInactivated,
+      PipelineRuleUpdated,
       PipelineCreated,
     ]
   end

@@ -35,6 +35,7 @@ class RuleReadModel
       condition
       name
       description
+      pipeline_id
       created_by
       created_at
       updated_by

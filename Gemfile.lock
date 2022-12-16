@@ -210,6 +210,10 @@ GEM
       roar (~> 1.1.0)
       test_xml (>= 0.1.6)
       uber (< 0.2.0)
+    rspec (3.12.0)
+      rspec-core (~> 3.12.0)
+      rspec-expectations (~> 3.12.0)
+      rspec-mocks (~> 3.12.0)
     rspec-core (3.12.0)
       rspec-support (~> 3.12.0)
     rspec-expectations (3.12.0)
@@ -242,6 +246,8 @@ GEM
     ruby_event_store-browser (2.5.1)
       rack
       ruby_event_store (= 2.5.1)
+    ruby_event_store-rspec (2.6.0)
+      rspec (~> 3.0)
     rubyzip (2.3.2)
     selenium-webdriver (4.6.1)
       childprocess (>= 0.5, < 5.0)
@@ -321,6 +327,7 @@ DEPENDENCIES
   rswag-api
   rswag-specs
   rswag-ui
+  ruby_event_store-rspec
   selenium-webdriver
   shoulda-matchers (~> 5.0)
   sprockets-rails

@@ -4,15 +4,21 @@ module Data
   class File
     include AggregateRoot
 
+    class State
+      UPLOADED = :uploaded
+      PROCESSING = :processed
+      PROCESSED = :processed
+    end
+
+    attr_reader :id
     attr_reader :state
     attr_reader :uploaded_at
     attr_reader :filename
     attr_reader :processing_started_at
     attr_reader :processing_ended_at
 
-    def initialize(id, filename)
+    def initialize(id)
       @id = id
-      @filename = filename
     end
 
     def processing_duration
@@ -22,11 +28,12 @@ module Data
       processing_ended_at - processing_started_at
     end
 
-    def upload
+    def upload(filename:)
       event_data = {
         uploaded_at: Time.now,
         updated_at: Time.now,
         filename: filename,
+        state: State::UPLOADED,
         id: id,
       }
       apply Events::FileUploaded.new(data: event_data)
@@ -34,6 +41,7 @@ module Data
 
     def processing
       event_data = {
+        state: State::PROCESSING,
         processing_started_at: Time.now,
         updated_at: Time.now,
       }
@@ -42,6 +50,7 @@ module Data
 
     def processed
       event_data = {
+        state: State::PROCESSED,
         processing_ended_at: Time.now,
         updated_at: Time.now,
       }
@@ -49,20 +58,20 @@ module Data
     end
 
     on Events::FileUploaded do |event|
-      @state = :uploaded
+      @state = event.data.fetch(:state)
       @updated_at = event.data.fetch(:updated_at)
       @uploaded_at = event.data.fetch(:uploaded_at)
       @filename = event.data.fetch(:filename)
     end
 
     on Events::FileProcessing do |event|
-      @state = :processing
+      @state = event.data.fetch(:state)
       @updated_at = event.data.fetch(:updated_at)
       @processing_started_at = event.data.fetch(:processing_started_at)
     end
 
     on Events::FileProcessed do |event|
-      @state = :processed
+      @state = event.data.fetch(:state)
       @updated_at = event.data.fetch(:updated_at)
       @processing_ended_at = event.data.fetch(:processing_ended_at)
     end
