@@ -1,6 +1,8 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
+const colors = require('tailwindcss/colors')
 
 module.exports = {
+  darkMode: 'class',
   content: [
     './public/*.html',
     './app/helpers/**/*.rb',
@@ -10,10 +12,17 @@ module.exports = {
   ],
   theme: {
     extend: {
+      spacing: {
+        '128': '32rem',
+        '144': '36rem',
+      },
+      borderRadius: {
+        '4xl': '2rem',
+      },
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
-      },
-    },
+      }
+    }
   },
   plugins: [
     require('@tailwindcss/forms'),

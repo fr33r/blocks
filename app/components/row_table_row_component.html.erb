@@ -1,20 +1,27 @@
-<tr class="hover:bg-zinc-600 hover:cursor-pointer odd:bg-zinc-700">
-  <td class="font-mono pt-3 pb-3 border-y border-zinc-700 "><%= @row.id %></td>
-  <td class="font-mono pt-3 pb-3 border-y border-zinc-700 "><%= @row.data_hash %></td>
-  <td class="pt-3 pb-3 border-y border-zinc-700 ">
-    <% if @row.uploaded_state? %>
-      <%= render(UploadedStatusPillComponent.new) %>
-    <% elsif @row.valid_state? %>
-      <%= render(ValidStatusPillComponent.new) %>
-    <% elsif @row.invalid_state? %>
-      <%= render(InvalidStatusPillComponent.new) %>
-    <% elsif @row.filtered_state? %>
-      <%= render(FilteredStatusPillComponent.new) %>
-    <% elsif @row.ingested_state? %>
-      <%= render(IngestedStatusPillComponent.new) %>
-    <% end %>
-  </td>
-  <td class="font-mono pt-3 pb-3 border-y border-zinc-700 whitespace-nowrap truncate">
-    <%= @row.data %>
-  </td>
+<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+      <%= @row.id %>
+    </th>
+    <td class="py-4 px-6">
+      <%= @row.data_hash %>
+    </td>
+    <td class="py-4 px-6">
+      <% if @row.uploaded_state? %>
+        <%= render(UploadedStatusPillComponent.new) %>
+      <% elsif @row.valid_state? %>
+        <%= render(ValidStatusPillComponent.new) %>
+      <% elsif @row.invalid_state? %>
+        <%= render(InvalidStatusPillComponent.new) %>
+      <% elsif @row.filtered_state? %>
+        <%= render(FilteredStatusPillComponent.new) %>
+      <% elsif @row.ingested_state? %>
+        <%= render(IngestedStatusPillComponent.new) %>
+      <% end %>
+    </td>
+    <td class="py-4 px-6">
+      <%= @row.data %>
+    </td>
+    <td class="py-4 px-6 text-right">
+        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+    </td>
 </tr>

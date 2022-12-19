@@ -1,15 +1,28 @@
-<table class="border-collapse text-center bg-zinc-800 mx-auto rounded-md table-fixed w-full">
-  <thead>
-    <tr>
-      <th class="p-5">ID</th>
-      <th class="p-5">Hash</th>
-      <th class="p-5">State</th>
-      <th class="p-5">Data</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @rows.each do |row| %>
-      <%= render(RowTableRowComponent.new(row: row)) %>
-    <% end %>
-  </tbody>
-</table>
+<div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="py-3 px-6">
+                    ID
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Hash
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    State
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Data
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    <span class="sr-only">Edit</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+          <% @rows.each do |row| %>
+            <%= render(RowTableRowComponent.new(row: row)) %>
+          <% end %>
+        </tbody>
+    </table>
+</div>
