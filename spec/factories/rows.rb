@@ -13,6 +13,9 @@ FactoryBot.define do
     data_hash { Hashers::Md5.hash(data.to_yaml) }
     created_by { Faker::Internet.uuid }
     updated_by { Faker::Internet.uuid }
+    row_number { 1 }
+    uploaded
+    file { association(:data_file) }
 
     trait :uploaded do
       state { Data::Row::State::UPLOADED }

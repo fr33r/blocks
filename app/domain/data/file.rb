@@ -10,6 +10,12 @@ module Data
       PROCESSED = :processed
     end
 
+    STATES = [
+      State::UPLOADED,
+      State::PROCESSING,
+      State::PROCESSED,
+    ].freeze
+
     class FileAlreadyProcessed < StandardError; end
     class InvalidRowProcessed < StandardError; end
     class MissingTotalRowCount < StandardError; end

@@ -3,6 +3,7 @@
 class Row < ApplicationRecord
   # associations.
   has_many :row_errors
+  belongs_to :file, class_name: DataFile.to_s
 
   # enum values.
   STATE_ENUM_VALUES = Data::Row::STATES.to_h { |state| [state, state.to_s] }
@@ -22,4 +23,5 @@ class Row < ApplicationRecord
   # aliases.
   alias_attribute :uploaded_at, :created_at
   alias_attribute :uploaded_by, :created_by
+  alias_attribute :file_id, :data_file_id
 end

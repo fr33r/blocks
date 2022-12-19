@@ -1,0 +1,15 @@
+# frozen_string_literal: true
+
+class DataFile < ApplicationRecord
+  # associations.
+  belongs_to :file_format
+  has_many :rows
+
+  # enum values.
+  STATE_ENUM_VALUES = Data::File::STATES.to_h { |state| [state, state.to_s] }
+
+  # validations.
+  enum state: STATE_ENUM_VALUES, _suffix: true
+  validates_presence_of :filename
+  validates_presence_of :total_row_count
+end

@@ -11,4 +11,6 @@ class Rule < ApplicationRecord
   # validations.
   enum state: STATE_ENUM_VALUES, _suffix: true
   enum rule_type: TYPE_ENUM_VALUES, _suffix: true
+  validates_presence_of :condition
+  validates_presence_of :name
 end

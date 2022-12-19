@@ -10,10 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_10_070133) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_19_051559) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "data_files", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "state", null: false
+    t.string "filename", null: false
+    t.integer "total_row_count", null: false
+    t.datetime "processing_started_at"
+    t.datetime "processing_ended_at"
+    t.uuid "file_format_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["file_format_id"], name: "index_data_files_on_file_format_id"
+    t.index ["filename"], name: "index_data_files_on_filename"
+  end
 
   create_table "event_store_events", force: :cascade do |t|
     t.uuid "event_id", null: false
@@ -38,6 +51,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_10_070133) do
     t.index ["stream", "position"], name: "index_event_store_events_in_streams_on_stream_and_position", unique: true
   end
 
+  create_table "file_formats", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "state", null: false
+    t.string "name", null: false
+    t.uuid "created_by"
+    t.uuid "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_file_formats_on_name"
+  end
+
   create_table "pipelines", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -54,13 +77,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_10_070133) do
   end
 
   create_table "rows", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "state"
-    t.string "data_hash"
-    t.jsonb "data"
+    t.string "state", null: false
+    t.integer "row_number", null: false
+    t.string "data_hash", null: false
+    t.jsonb "data", null: false
     t.uuid "created_by"
     t.uuid "updated_by"
+    t.uuid "data_file_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["data_file_id"], name: "index_rows_on_data_file_id"
     t.index ["data_hash"], name: "index_rows_on_data_hash"
   end
 
