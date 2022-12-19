@@ -2,6 +2,12 @@ require 'rails_helper'
 require 'swagger_helper'
 
 RSpec.describe "Api::Rows", type: :request do
+
+  def with(root, id, &block)
+    stream = "#{root.class}$#{id}"
+    AggregateRoot::Repository.new.with_aggregate(root, stream, &block)
+  end
+
   path '/api/formats/{format_id}/files/{file_id}/rows' do
     post 'Creates new row' do
       tags 'Rows'
@@ -15,8 +21,24 @@ RSpec.describe "Api::Rows", type: :request do
         let(:format_id) { SecureRandom.uuid }
         let(:file_id) { SecureRandom.uuid }
         let(:row) do
-          { data: { 'COLUMN_1' => 'foo', 'COLUMN_2' => 'bar', 'COLUMN_3' => 'baz' } }
+          {
+            row_number: 1,
+            data: { 'COLUMN_1' => 'foo', 'COLUMN_2' => 'bar', 'COLUMN_3' => 'baz' },
+          }
         end
+
+        before do
+          # create format.
+          with(Data::FileFormat.new(format_id), format_id) do |format|
+            format.create('Test format')
+          end
+
+          # create file.
+          with(Data::File.new(file_id), file_id) do |file|
+            file.upload(filename: 'foo.csv', total_row_count: 1)
+          end
+        end
+
         run_test!
       end
     end
@@ -89,25 +111,33 @@ RSpec.describe "Api::Rows", type: :request do
       parameter name: :format_id, in: :path, required: true
       parameter name: :file_id, in: :path, required: true
 
-      before do
-        create(:row, :uploaded)
-      end
-
       response '204', 'Rows created' do
         let(:format_id) { SecureRandom.uuid }
         let(:file_id) { SecureRandom.uuid }
         let(:patch_operations) do
           [
-            { op: 'add', path: '-', value: { data: { 'COLUMN_1' => 'foo' } } },
-            { op: 'add', path: '-', value: { data: { 'COLUMN_1' => 'bar' } } },
-            { op: 'add', path: '-', value: { data: { 'COLUMN_1' => 'baz' } } },
-            { op: 'add', path: '-', value: { data: { 'COLUMN_1' => 'biz' } } },
-            { op: 'add', path: '-', value: { data: { 'COLUMN_1' => 'zap' } } },
+            { op: 'add', path: '-', value: { row_number: 1, data: { 'COLUMN_1' => 'foo' } } },
+            { op: 'add', path: '-', value: { row_number: 2, data: { 'COLUMN_1' => 'bar' } } },
+            { op: 'add', path: '-', value: { row_number: 3, data: { 'COLUMN_1' => 'baz' } } },
+            { op: 'add', path: '-', value: { row_number: 4, data: { 'COLUMN_1' => 'biz' } } },
+            { op: 'add', path: '-', value: { row_number: 5, data: { 'COLUMN_1' => 'zap' } } },
           ]
         end
 
+        before do
+          # create format.
+          with(Data::FileFormat.new(format_id), format_id) do |format|
+            format.create('Test format')
+          end
+
+          # create file.
+          with(Data::File.new(file_id), file_id) do |file|
+            file.upload(filename: 'foo.csv', total_row_count: 5)
+          end
+        end
+
         run_test! do
-          expect(Row.count).to eq(patch_operations.count + 1)
+          expect(Row.count).to eq(patch_operations.count)
         end
       end
     end

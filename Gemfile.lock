@@ -72,6 +72,7 @@ GEM
       ruby_event_store (= 2.5.1)
     arkency-command_bus (0.4.1)
       concurrent-ruby
+    awesome_print (1.9.2)
     bindex (0.8.1)
     bootsnap (1.13.0)
       msgpack (~> 1.2)
@@ -305,6 +306,7 @@ PLATFORMS
   x86_64-darwin-21
 
 DEPENDENCIES
+  awesome_print
   bootsnap
   byebug
   capybara

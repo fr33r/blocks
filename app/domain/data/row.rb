@@ -36,6 +36,8 @@ module Data
     attr_reader :hash
     attr_reader :data
     attr_reader :errors
+    attr_reader :file_id
+    attr_reader :row_number
 
     def initialize(id, hasher = ::Hashers::Md5)
       @id = id
@@ -47,14 +49,16 @@ module Data
       apply Events::RowUpdated.new(data: { data: data, updated_at: Time.now, hash: hash })
     end
 
-    def upload(data)
+    def upload(row_number, file_id, data)
       event_data = {
         uploaded_at: Time.now,
         updated_at: Time.now,
+        row_number: row_number,
         data: data,
         state: State::UPLOADED,
         id: id,
         hash: hasher.hash(data.to_yaml),
+        file_id: file_id,
       }
       apply Events::RowUploaded.new(data: event_data)
     end
@@ -99,6 +103,7 @@ module Data
       @hash = event.data.fetch(:hash)
       @data = event.data.fetch(:data)
       @uploaded_at = event.data.fetch(:uploaded_at)
+      @row_number = event.data.fetch(:row_number)
     end
 
     on Events::RowUpdated do |event|

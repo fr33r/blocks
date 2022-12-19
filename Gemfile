@@ -68,6 +68,7 @@ group :development, :test do
   gem "factory_bot_rails"
   gem "faker"
   gem "byebug"
+  gem "awesome_print"
 end
 
 group :development do

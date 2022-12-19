@@ -39,6 +39,9 @@ module Api
     end
 
     def patch_collection
+      file_id = params[:file_id]
+      format_id = params[:format_id]
+
       # validate operations.
       additions = patch_operations.map do |operation|
         operation['value'] if operation['op'] == 'add'
@@ -47,8 +50,12 @@ module Api
       # do this async.
       additions.each do |addition|
         id = new_id
+        data = addition['data']
+        row_num = addition['row_number']
         created_by = SecureRandom.uuid
-        command = Data::Commands::CreateRow.new(id, addition, created_by)
+        command = Data::Commands::CreateRow.new(
+          id, row_num, format_id, file_id, data, created_by
+        )
         command_bus.call(command)
       end
     end
@@ -60,12 +67,17 @@ module Api
     end
 
     def create_command
+      id = new_id
+      data = create_params[:data]
+      file_id = create_params[:file_id]
+      format_id = create_params[:format_id]
+      row_num = create_params[:row_number]
       created_by = SecureRandom.uuid
-      Data::Commands::CreateRow.new(new_id, create_params.fetch(:data), created_by)
+      Data::Commands::CreateRow.new(id, row_num, format_id, file_id, data, created_by)
     end
 
     def create_params
-      params.permit!.slice(:data)
+      params.permit!
     end
 
     def update_command
