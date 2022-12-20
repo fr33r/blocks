@@ -15,6 +15,8 @@ Rails.configuration.to_prepare do
     RowReadModel.configure(store)
     PipelineReadModel.configure(store)
     RuleReadModel.configure(store)
+    FileReadModel.configure(store)
+    FileFormatReadModel.configure(store)
 
     store.subscribe_to_all_events(RailsEventStore::LinkByEventType.new)
     store.subscribe_to_all_events(RailsEventStore::LinkByCorrelationId.new)

@@ -15,7 +15,7 @@ FactoryBot.define do
     updated_by { Faker::Internet.uuid }
     row_number { 1 }
     uploaded
-    file { association(:data_file) }
+    data_file { association(:data_file) }
 
     trait :uploaded do
       state { Data::Row::State::UPLOADED }

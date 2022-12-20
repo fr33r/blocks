@@ -12,4 +12,7 @@ class DataFile < ApplicationRecord
   enum state: STATE_ENUM_VALUES, _suffix: true
   validates_presence_of :filename
   validates_presence_of :total_row_count
+
+  # aliases.
+  alias_attribute :uploaded_at, :created_at
 end

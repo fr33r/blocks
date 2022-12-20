@@ -23,7 +23,9 @@ module Data
     attr_reader :id
     attr_reader :state
     attr_reader :uploaded_at
+    attr_reader :updated_at
     attr_reader :filename
+    attr_reader :file_format_id
     attr_reader :total_row_count
     attr_reader :processing_started_at
     attr_reader :processing_ended_at
@@ -71,11 +73,12 @@ module Data
       end
     end
 
-    def upload(filename:, total_row_count:)
+    def upload(filename:, total_row_count:, format_id:)
       event_data = {
         uploaded_at: Time.now,
         updated_at: Time.now,
         filename: filename,
+        file_format_id: format_id,
         total_row_count: total_row_count,
         state: State::UPLOADED,
         id: id,
@@ -107,6 +110,7 @@ module Data
       @uploaded_at = event.data.fetch(:uploaded_at)
       @total_row_count = event.data.fetch(:total_row_count)
       @filename = event.data.fetch(:filename)
+      @file_format_id = event.data.fetch(:file_format_id)
     end
 
     on Events::FileProcessing do |event|

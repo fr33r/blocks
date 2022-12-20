@@ -43,6 +43,8 @@ module Data
       RowInvalidated,
       RowFiltered,
       RowIngested,
+      FileFormatCreated,
+      FileUploaded,
     ]
   end
 end

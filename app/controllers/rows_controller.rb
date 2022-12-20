@@ -3,6 +3,27 @@ class RowsController < ApplicationController
     @rows = search_params? ? search : Row.all
   end
 
+  def edit
+    @row = Row.find(params[:id])
+  end
+
+  def show
+    @row = Row.find(params[:id])
+    @duplicate_rows = Row.with_hash(@row.data_hash).where.not(id: @row.id)
+    stream = "Row$#{@row.id}"
+    @events = Rails.configuration.event_store.read.stream(stream).to_a
+  end
+
+  def update
+    params.permit!
+    updated_by = SecureRandom.uuid
+    row_id = params[:id]
+    row_number = params[:row_number]
+    data = params[:data]
+    command = Data::Commands::UpdateRow.new(row_id, data, updated_by)
+    command_bus.call(command)
+  end
+
   private
 
   def search

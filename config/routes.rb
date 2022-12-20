@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :rows, only: %i[index show create update]
+  resources :rows, only: %i[index show create update edit new]
 
   mount RailsEventStore::Browser => '/res' if Rails.env.development?
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

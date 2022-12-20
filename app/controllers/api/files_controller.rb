@@ -2,31 +2,38 @@
 
 module Api
   class FilesController < ApplicationController
+    include Roar::Rails::ControllerAdditions
+    include Roar::Rails::ControllerAdditions::Render
+
+    represents :json, :entity => FileRepresenter, :collection => FileCollectionRepresenter
+
     def index
-      # use projection instead.
     end
 
     def show
-      row = repository.load(DataFile.new, stream_name)
-
-      respond(row)
     end
 
     def create
-      result = repository.with_aggregate(DataFile.new(new_id), stream_name) do |row|
-        row.upload(creation_params)
-      end
-
-      respond(result)
+      command = create_command
+      command_bus.call(command)
+      render json: read_model.find(command.id), status: :created
     end
 
     private
 
-    def creation_params
-      {
-        filename: 'example.csv',
-        total_rows: 500,
-      }
+    def create_command
+      id = new_id
+      format_id = params[:format_id]
+      filename = params[:filename]
+      total_row_count = params[:total_row_count]
+      created_by = SecureRandom.uuid
+      Data::Commands::CreateFile.new(
+        id, format_id, filename, total_row_count, created_by,
+      )
+    end
+
+    def read_model
+      FileReadModel.new
     end
   end
 end

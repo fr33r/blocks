@@ -2,7 +2,7 @@
 
 module Data
   module CommandHandlers
-    class RowHandler < Handler
+    class FileFormatHandler < Handler
     end
   end
 end

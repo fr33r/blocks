@@ -1,0 +1,110 @@
+<div class="flex flex-col container space-y-4">
+  <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Row <mark class="px-2 text-white bg-blue-600 rounded dark:bg-blue-500"><%= @row.id %></mark></h1>
+
+  <h2 class="text-4xl font-extrabold dark:text-white">Duplicates</h2>
+  <p class="my-4 text-lg text-gray-500">Other rows that are exact duplicates of this one.</p>
+
+  <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                  <th scope="col" class="py-3 px-6">
+                      ID
+                  </th>
+                  <th scope="col" class="py-3 px-6">
+                      State
+                  </th>
+                  <th scope="col" class="py-3 px-6">
+                      Data
+                  </th>
+                  <th scope="col" class="py-3 px-6">
+                      <span class="sr-only">Edit</span>
+                  </th>
+              </tr>
+          </thead>
+          <tbody>
+            <% @duplicate_rows.each do |row| %>
+              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                  <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <%= row.id %>
+                  </th>
+                  <td class="py-4 px-6">
+                    <% if row.uploaded_state? %>
+                      <%= render(UploadedStatusPillComponent.new) %>
+                    <% elsif row.valid_state? %>
+                      <%= render(ValidStatusPillComponent.new) %>
+                    <% elsif row.invalid_state? %>
+                      <%= render(InvalidStatusPillComponent.new) %>
+                    <% elsif row.filtered_state? %>
+                      <%= render(FilteredStatusPillComponent.new) %>
+                    <% elsif row.ingested_state? %>
+                      <%= render(IngestedStatusPillComponent.new) %>
+                    <% end %>
+                  </td>
+                  <td class="py-4 px-6">
+                    <%= row.data %>
+                  </td>
+                  <td class="py-4 px-6 text-right">
+                    <%= link_to "Edit", action: :edit, id: row %>
+                  </td>
+              </tr>
+            <% end %>
+          </tbody>
+      </table>
+  </div>
+
+  <h2 class="text-4xl font-extrabold dark:text-white">Events</h2>
+  <p class="my-4 text-lg text-gray-500">The series of events that led to the current state of the row.</p>
+
+  <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                  <th scope="col" class="py-3 px-6">
+                      Event ID
+                  </th>
+                  <th scope="col" class="py-3 px-6">
+                      State
+                  </th>
+                  <th scope="col" class="py-3 px-6">
+                      Data
+                  </th>
+                  <th scope="col" class="py-3 px-6">
+                      <span class="sr-only">Edit</span>
+                  </th>
+              </tr>
+          </thead>
+          <tbody>
+            <% @duplicate_rows.each do |row| %>
+              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                  <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <%= row.id %>
+                  </th>
+                  <td class="py-4 px-6">
+                    <% if row.uploaded_state? %>
+                      <%= render(UploadedStatusPillComponent.new) %>
+                    <% elsif row.valid_state? %>
+                      <%= render(ValidStatusPillComponent.new) %>
+                    <% elsif row.invalid_state? %>
+                      <%= render(InvalidStatusPillComponent.new) %>
+                    <% elsif row.filtered_state? %>
+                      <%= render(FilteredStatusPillComponent.new) %>
+                    <% elsif row.ingested_state? %>
+                      <%= render(IngestedStatusPillComponent.new) %>
+                    <% end %>
+                  </td>
+                  <td class="py-4 px-6">
+                    <%= row.data %>
+                  </td>
+                  <td class="py-4 px-6 text-right">
+                    <%= link_to "Edit", action: :edit, id: row %>
+                  </td>
+              </tr>
+            <% end %>
+          </tbody>
+      </table>
+  </div>
+
+  <h2 class="text-4xl font-extrabold dark:text-white">Linked</h2>
+  <p class="my-4 text-lg text-gray-500">The rows from other formats that have been linked to this row.</p>
+</div>

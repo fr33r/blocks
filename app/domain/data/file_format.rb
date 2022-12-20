@@ -29,6 +29,7 @@ module Data
 
     def create(name, created_by)
       event_data = {
+        id: @id,
         name: name,
         state: State::CREATED,
         updated_at: Time.now,

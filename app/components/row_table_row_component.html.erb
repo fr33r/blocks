@@ -22,6 +22,7 @@
       <%= @row.data %>
     </td>
     <td class="py-4 px-6 text-right">
-        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+      <%= link_to "Show", action: :show, id: @row %>
+      <%= link_to "Edit", action: :edit, id: @row %>
     </td>
 </tr>
