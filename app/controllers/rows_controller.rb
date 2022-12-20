@@ -10,7 +10,7 @@ class RowsController < ApplicationController
   def show
     @row = Row.find(params[:id])
     @duplicate_rows = Row.with_hash(@row.data_hash).where.not(id: @row.id)
-    stream = "Row$#{@row.id}"
+    stream = "Data::Row$#{@row.id}"
     @events = Rails.configuration.event_store.read.stream(stream).to_a
   end
 
