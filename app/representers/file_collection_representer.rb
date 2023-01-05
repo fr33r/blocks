@@ -13,4 +13,3 @@ class FileCollectionRepresenter < Roar::Decorator
     property :uploaded_at
   end
 end
-

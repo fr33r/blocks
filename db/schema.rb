@@ -10,10 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_19_051559) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_29_163302) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "anchors", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.uuid "file_format_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["file_format_id"], name: "index_anchors_on_file_format_id"
+  end
+
+  create_table "anchors_columns", id: false, force: :cascade do |t|
+    t.uuid "anchor_id", null: false
+    t.uuid "column_id", null: false
+  end
+
+  create_table "columns", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.string "data_type", null: false
+    t.boolean "required", null: false
+    t.uuid "file_format_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["file_format_id", "name"], name: "index_columns_on_file_format_id_and_name"
+    t.index ["file_format_id"], name: "index_columns_on_file_format_id"
+  end
 
   create_table "data_files", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "state", null: false

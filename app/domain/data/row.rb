@@ -38,6 +38,7 @@ module Data
     attr_reader :errors
     attr_reader :file_id
     attr_reader :row_number
+    attr_reader :anchor_values
 
     def initialize(id, hasher = ::Hashers::Md5)
       @id = id
@@ -46,10 +47,11 @@ module Data
 
     def update_data(data)
       hash = hasher.hash(data.to_yaml)
-      apply Events::RowUpdated.new(data: { data: data, updated_at: Time.now, hash: hash })
+      event_data = { data: data, updated_at: Time.now, hash: hash }
+      apply Events::RowUpdated.new(data: event_data)
     end
 
-    def upload(row_number, file_id, data)
+    def upload(row_number, file_id, data, format)
       event_data = {
         uploaded_at: Time.now,
         updated_at: Time.now,
@@ -59,6 +61,7 @@ module Data
         id: id,
         hash: hasher.hash(data.to_yaml),
         file_id: file_id,
+        anchor_values: generate_anchor_values(format),
       }
       apply Events::RowUploaded.new(data: event_data)
     end
@@ -90,11 +93,13 @@ module Data
     end
 
     def filter
-      apply Events::RowFiltered.new(data: { state: State::FILTERED, updated_at: Time.now })
+      event_data = { state: State::FILTERED, updated_at: Time.now }
+      apply Events::RowFiltered.new(data: event_data)
     end
 
     def ingest
-      apply Events::RowIngested.new(data: { state: State::INGESTED, updated_at: Time.now })
+      event_data = { state: State::INGESTED, updated_at: Time.now }
+      apply Events::RowIngested.new(data: event_data)
     end
 
     on Events::RowUploaded do |event|
@@ -104,6 +109,7 @@ module Data
       @data = event.data.fetch(:data)
       @uploaded_at = event.data.fetch(:uploaded_at)
       @row_number = event.data.fetch(:row_number)
+      @anchor_values = event.data.fetch(:anchor_values)
     end
 
     on Events::RowUpdated do |event|
@@ -135,5 +141,19 @@ module Data
     private
 
     attr_reader :hasher
+
+    def generate_anchor_values(format)
+      return [] if format.nil?
+      return [] if format.anchors.nil?
+      return [] if format.anchors.empty?
+
+      columns = format.columns
+      anchors.map do |anchor|
+        anchor_columns = columns.filter { |c| columns.includes?(anchor.columns) }
+        anchor_column_names = anchor_columns.map(&:name)
+        anchor_data = data.slice(**anchor_column_names)
+        AnchorValue.new(anchor_data, anchor.id)
+      end
+    end
   end
 end

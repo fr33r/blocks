@@ -13,15 +13,24 @@ module Api
       render json: read_model.find(command.id), status: :created
     end
 
+    def show
+      render json: read_model.find(params[:id])
+    end
+
+    def index
+      render json: read_model.all
+    end
+
     private
 
     def create_command
       id = new_id
       name = params[:name]
       created_by = SecureRandom.uuid
-      Data::Commands::CreateFileFormat.new(id, name, created_by)
+      columns_args = params[:columns]
+      anchors_args = params[:anchors]
+      Data::Commands::CreateFileFormat.new(id, name, columns_args, anchors_args, created_by)
     end
-
 
     def read_model
       FileFormatReadModel.new

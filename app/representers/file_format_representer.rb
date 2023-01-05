@@ -10,9 +10,7 @@ class FileFormatRepresenter < Roar::Decorator
   property :state
   property :name
   # property :description
-  # property :updated_at
-  # property :activated_at
-  # property :inactived_at
-  # collection :columns
+  # watch out! don't mispell decorator - silent semantic bug.
+  collection :columns, decorator: ColumnRepresenter, wrap: false
+  collection :anchors, decorator: AnchorRepresenter, wrap: false
 end
-

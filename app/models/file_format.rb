@@ -3,6 +3,8 @@
 class FileFormat < ApplicationRecord
   # associations.
   has_many :files, class_name: DataFile.to_s
+  has_many :columns
+  has_many :anchors
 
   # enum values.
   STATE_ENUM_VALUES = Data::FileFormat::STATES.to_h { |state| [state, state.to_s] }

@@ -3,9 +3,9 @@
 module Data
   module CommandHandlers
     class CreateFileFormatHandler < FileFormatHandler
-      def call(command)
-        with_format(command.id) do |f|
-          f.create(command.name, command.created_by)
+      def call(cmd)
+        with_format(cmd.id) do |f|
+          f.create(cmd.name, cmd.columns_args, cmd.anchors_args, cmd.created_by)
         end
       end
     end

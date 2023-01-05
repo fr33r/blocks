@@ -71,13 +71,10 @@ module Evaluation
     on Events::PipelineCreated do |event|
       @created_at = event.data.fetch(:created_at)
       @updated_at = event.data.fetch(:updated_at)
-      @test << :test1
     end
 
     on Events::PipelineRuleCreated do |event|
       rule = Rule.new(event.data)
-      @test << :test2
-      byebug
       @indexed_rules[rule.id] = rule
     end
 
@@ -101,8 +98,6 @@ module Evaluation
       rule_id = event.data.fetch(:rule_id)
       name = event.data.fetch(:name)
       description = event.data.fetch(:description)
-      @test << :test3
-      byebug
       @indexed_rules[rule_id].update(updated_at: rule_updated_at, name: name, description: description, updated_by: rule_updated_by)
     end
   end

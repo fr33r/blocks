@@ -10,7 +10,7 @@ class FileFormatCollectionRepresenter < Roar::Decorator
     property :id
     property :state
     property :name
-    # property :created_at
+    property :columns, decorator: ColumnCollectionRepresenter, class: Column
+    property :anchors, decorator: AnchorCollectionRepresenter, class: Anchor
   end
 end
-
