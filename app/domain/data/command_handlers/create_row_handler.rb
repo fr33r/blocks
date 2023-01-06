@@ -11,7 +11,7 @@ module Data
         return if file.nil? # perhaps throw an error!
 
         with_row(command.id) do |r|
-          r.upload(command.row_number, command.file_id, command.row_data)
+          r.upload(command.row_number, command.file_id, command.row_data, format)
         end
 
         row = load_row(command.id)

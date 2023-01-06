@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   end
 
   resources :rows, only: %i[index show create update edit new]
+  resources :formats, only: %i[index show], controller: 'file_formats'
 
   mount RailsEventStore::Browser => '/res' if Rails.env.development?
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

@@ -61,7 +61,7 @@ module Data
         id: id,
         hash: hasher.hash(data.to_yaml),
         file_id: file_id,
-        anchor_values: generate_anchor_values(format),
+        anchor_values: generate_anchor_values(data, format),
       }
       apply Events::RowUploaded.new(data: event_data)
     end
@@ -142,16 +142,16 @@ module Data
 
     attr_reader :hasher
 
-    def generate_anchor_values(format)
+    def generate_anchor_values(data, format)
       return [] if format.nil?
       return [] if format.anchors.nil?
       return [] if format.anchors.empty?
 
       columns = format.columns
-      anchors.map do |anchor|
-        anchor_columns = columns.filter { |c| columns.includes?(anchor.columns) }
+      format.anchors.map do |anchor|
+        anchor_columns = columns.filter { |c| anchor.column_ids.include?(c.id) }
         anchor_column_names = anchor_columns.map(&:name)
-        anchor_data = data.slice(**anchor_column_names)
+        anchor_data = data.slice(*anchor_column_names)
         AnchorValue.new(anchor_data, anchor.id)
       end
     end
