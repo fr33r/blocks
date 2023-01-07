@@ -57,6 +57,21 @@ class RowReadModel
 
   private
 
+  def create_anchor_values!(event_data)
+    anchor_values = event_data.fetch(:anchor_values)
+    row_id = event_data.fetch(:id)
+    anchor_values.each do |anchor_value_data|
+      create_anchor_value!(row_id, anchor_value_data)
+    end
+  end
+
+  def create_anchor_value!(row_id, anchor_value_data)
+    attributes = anchor_value_data.dup
+    attributes[:data_hash] = attributes.delete(:hash)
+    anchor_value = AnchorValue.new(row_id: row_id, **attributes)
+    anchor_value.save!
+  end
+
   def create_row!(event_data)
     attributes_names =
       %i[id row_number file_id state hash data uploaded_by uploaded_at updated_by updated_at]
@@ -68,6 +83,8 @@ class RowReadModel
     row = Row.new(**attributes)
     row.id = attributes.fetch(:id)
     row.save!
+
+    create_anchor_values!(event_data)
   end
 
   def update_row!(event_data)

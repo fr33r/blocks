@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_29_163302) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_07_184548) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "anchor_values", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "row_id"
+    t.uuid "anchor_id"
+    t.jsonb "data", null: false
+    t.string "data_hash", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["anchor_id"], name: "index_anchor_values_on_anchor_id"
+    t.index ["row_id"], name: "index_anchor_values_on_row_id"
+  end
 
   create_table "anchors", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false

@@ -61,7 +61,7 @@ module Data
         id: id,
         hash: hasher.hash(data.to_yaml),
         file_id: file_id,
-        anchor_values: generate_anchor_values(data, format),
+        anchor_values: generate_anchor_values(data, format).map(&:to_h),
       }
       apply Events::RowUploaded.new(data: event_data)
     end
@@ -109,7 +109,11 @@ module Data
       @data = event.data.fetch(:data)
       @uploaded_at = event.data.fetch(:uploaded_at)
       @row_number = event.data.fetch(:row_number)
-      @anchor_values = event.data.fetch(:anchor_values)
+
+      anchor_value_data = event.data.fetch(:anchor_values)
+      @anchor_values = anchor_value_data.map do |anchor_value|
+        AnchorValue.new(anchor_value[:data], anchor_value[:anchor_id])
+      end
     end
 
     on Events::RowUpdated do |event|

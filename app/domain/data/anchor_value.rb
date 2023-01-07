@@ -11,6 +11,16 @@ module Data
       @hasher = hasher
     end
 
+    def to_hash
+      {
+        data: data,
+        hash: hash,
+        anchor_id: anchor_id,
+      }
+    end
+
+    alias :to_h :to_hash
+
     private
 
     attr_reader :hasher
@@ -20,7 +30,7 @@ module Data
     end
 
     def normalized_data_values
-      data.values.sort.map(&:downcase)
+      data.values.map(&:to_s).sort.map(&:downcase)
     end
   end
 end

@@ -5,6 +5,8 @@ class FileReadModel
     case event
       when Data::Events::FileUploaded
         create_file!(event.data)
+      when Data::Events::FileProcessing
+        file_processing!(event.data)
     end
   end
 
@@ -30,5 +32,11 @@ class FileReadModel
     file = DataFile.new(**attributes)
     file.id = attributes.fetch(:id)
     file.save!
+  end
+
+  def file_processing!(event_data)
+    attributes_names = %i[state processing_started_at]
+    attributes = event_data.slice(*attributes_names)
+    DataFile.update!(**attributes)
   end
 end

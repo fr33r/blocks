@@ -4,6 +4,7 @@ class Row < ApplicationRecord
   # associations.
   has_many :row_errors
   belongs_to :data_file
+  has_many :anchor_values
 
   # enum values.
   STATE_ENUM_VALUES = Data::Row::STATES.to_h { |state| [state, state.to_s] }

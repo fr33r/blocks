@@ -15,4 +15,5 @@ class RowRepresenter < Roar::Decorator
   property :uploaded_by
   property :updated_at
   property :updated_by
+  collection :anchor_values, extend: AnchorValueRepresenter
 end
