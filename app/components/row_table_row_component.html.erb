@@ -22,7 +22,7 @@
       <%= @row.data %>
     </td>
     <td class="py-4 px-6 text-right">
-      <%= link_to "Show", action: :show, id: @row %>
-      <%= link_to "Edit", action: :edit, id: @row %>
+      <%= link_to "Show", action: :show, controller: 'rows', format_id: @row.data_file.file_format.id, file_id: @row.file_id, id: @row.id %>
+      <%= link_to "Edit", action: :edit, controller: 'rows', format_id: @row.data_file.file_format.id, file_id: @row.file_id, id: @row.id %>
     </td>
 </tr>

@@ -1,183 +1,32 @@
 <div class="flex flex-col container space-y-4">
-  <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Format <mark class="px-2 text-white bg-blue-600 rounded dark:bg-blue-500"><%= @format.id %></mark></h1>
+  <h1 class="detail-page-h1">
+    Format <mark class="detail-page-mark"><%= @format.id %></mark>
+  </h1>
 
-  <h2 class="text-4xl font-extrabold dark:text-white">Details</h2>
-
+  <h2 class="detail-page-h2">Details</h2>
   <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                  <th scope="col" class="py-3 px-6">
-                      Name
-                  </th>
-                  <th scope="col" class="py-3 px-6">
-                      Description
-                  </th>
-                  <th scope="col" class="py-3 px-6">
-                      State
-                  </th>
-                  <th scope="col" class="py-3 px-6">
-                      Created At
-                  </th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <%= @format.name %>
-                  </th>
-                  <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    TBD
-                  </th>
-                  <td class="py-4 px-6">
-                    <% if @format.created_state? %>
-                      <%= render(CreatedStatusPillComponent.new(entity_class: FileFormat)) %>
-                    <% elsif @format.active_state? %>
-                      <%= render(ActiveStatusPillComponent.new(entity_class: FileFormat)) %>
-                    <% elsif @format.inactive_state? %>
-                      <%= render(InactiveStatusPillComponent.new(entity_class: FileFormat)) %>
-                    <% end %>
-                  </td>
-                  <td class="py-4 px-6">
-                    <%= @format.created_at %>
-                  </td>
-              </tr>
-          </tbody>
-      </table>
+    <%= render(FileFormatTableComponent.new(formats: Array.wrap(@format))) %>
   </div>
 
-  <h2 class="text-4xl font-extrabold dark:text-white">Columns</h2>
-  <p class="my-4 text-lg text-gray-500">The columns defined by the this format. Files for the format will contain these columns.</p>
-
+  <h2 class="detail-page-h2">Columns</h2>
+  <p class="detail-section-description">
+  The columns defined by the this format. Files for the format will contain these columns.
+  </p>
   <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                  <th scope="col" class="py-3 px-6">
-                      Name
-                  </th>
-                  <th scope="col" class="py-3 px-6">
-                      Description
-                  </th>
-                  <th scope="col" class="py-3 px-6">
-                      Data Type 
-                  </th>
-                  <th scope="col" class="py-3 px-6">
-                      Required
-                  </th>
-              </tr>
-          </thead>
-          <tbody>
-            <% @format.columns.each do |column| %>
-              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <%= column.name %>
-                  </th>
-                  <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <%= column.description %>
-                  </th>
-                  <td class="py-4 px-6">
-                    <%= column.data_type %>
-                  </td>
-                  <td class="py-4 px-6">
-                    <%= column.required %>
-                  </td>
-              </tr>
-            <% end %>
-          </tbody>
-      </table>
+    <%= render(ColumnTableComponent.new(columns: @format.columns)) %>
   </div>
 
-  <h2 class="text-4xl font-extrabold dark:text-white">Anchors</h2>
-  <p class="my-4 text-lg text-gray-500">The anchors defined by the format. These are used to link rows between files together.</p>
-
+  <h2 class="detail-page-h2">Anchors</h2>
+  <p class="detail-section-description">
+  The anchors defined by the format. These are used to link rows between files together.
+  </p>
   <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                  <th scope="col" class="py-3 px-6">
-                      Name
-                  </th>
-                  <th scope="col" class="py-3 px-6">
-                      Description
-                  </th>
-                  <th scope="col" class="py-3 px-6">
-                      Columns
-                  </th>
-              </tr>
-          </thead>
-          <tbody>
-            <% @format.anchors.each do |anchor| %>
-              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <%= anchor.name %>
-                  </th>
-                  <td class="py-4 px-6">
-                    <%= anchor.description %>
-                  </td>
-                  <td class="py-4 px-6">
-                    <% anchor.columns.map(&:name).each do |column_name| %>
-                      <%= render(ColumnBadgeComponent.new(column_name)) %>
-                      &nbsp;
-                    <% end %>
-                  </td>
-              </tr>
-            <% end %>
-          </tbody>
-      </table>
+    <%= render(AnchorTableComponent.new(anchors: @format.anchors)) %>
   </div>
 
-  <h2 class="text-4xl font-extrabold dark:text-white">Files</h2>
-  <p class="my-4 text-lg text-gray-500">Files with this format.</p>
-
+  <h2 class="detail-page-h2">Files</h2>
+  <p class="detail-section-description">Files with this format.</p>
   <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                  <th scope="col" class="py-3 px-6">
-                      Filename
-                  </th>
-                  <th scope="col" class="py-3 px-6">
-                      State
-                  </th>
-                  <th scope="col" class="py-3 px-6">
-                      Row count
-                  </th>
-                  <th scope="col" class="py-3 px-6">
-                      Uploaded at
-                  </th>
-                  <th scope="col" class="py-3 px-6">
-                      <span class="sr-only">Show</span>
-                  </th>
-              </tr>
-          </thead>
-          <tbody>
-            <% @format.files.each do |file| %>
-              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <td class="py-4 px-6">
-                    <%= file.filename %>
-                  </td>
-                  <td class="py-4 px-6">
-                    <% if file.uploaded_state? %>
-                      <%= render(UploadedStatusPillComponent.new) %>
-                    <% elsif file.processing_state? %>
-                      <%= render(ProcessingStatusPillComponent.new(entity_class: FileFormat)) %>
-                    <% elsif file.processed_state? %>
-                      <%= render(ProcessedStatusPillComponent.new(entity_class: FileFormat)) %>
-                    <% end %>
-                  </td>
-                  <td class="py-4 px-6">
-                    <%= file.rows.count %>
-                  </td>
-                  <td class="py-4 px-6">
-                    <%= file.created_at %>
-                  </td>
-                  <td class="py-4 px-6 text-right">
-                    <%= link_to "Show", action: :show, id: file %>
-                  </td>
-              </tr>
-            <% end %>
-          </tbody>
-      </table>
+    <%= render(FileTableComponent.new(files: @format.files)) %>
   </div>
 </div>

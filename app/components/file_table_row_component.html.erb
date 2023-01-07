@@ -1,0 +1,25 @@
+<tr class="table-row">
+    <td class="table-cell">
+      <%= @file.filename %>
+    </td>
+    <td class="table-cell">
+      <% if @file.uploaded_state? %>
+        <%= render(UploadedStatusPillComponent.new) %>
+      <% elsif @file.processing_state? %>
+        <%= render(ProcessingStatusPillComponent.new(entity_class: FileFormat)) %>
+      <% elsif @file.processed_state? %>
+        <%= render(ProcessedStatusPillComponent.new(entity_class: FileFormat)) %>
+      <% end %>
+    </td>
+    <td class="table-cell">
+      <%= @file.rows.count %>
+    </td>
+    <td class="table-cell">
+      <%= @file.created_at %>
+    </td>
+    <% if @show_actions %>
+      <td class="table-cell text-right">
+        <%= link_to "Show", action: :show, controller: 'files', format_id: @file.file_format.id, id: @file.id %>
+      </td>
+    <% end %>
+</tr>

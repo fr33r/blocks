@@ -1,0 +1,20 @@
+<tr class="table-row">
+    <td class="table-cell">
+      <%= @format.name %>
+    </td>
+    <td class="table-cell">
+      TBD
+    </td>
+    <td class="table-cell">
+      <% if @format.created_state? %>
+        <%= render(CreatedStatusPillComponent.new(entity_class: FileFormat)) %>
+      <% elsif @format.active_state? %>
+        <%= render(ActiveStatusPillComponent.new(entity_class: FileFormat)) %>
+      <% elsif @format.inactive_state? %>
+        <%= render(InactiveStatusPillComponent.new(entity_class: FileFormat)) %>
+      <% end %>
+    </td>
+    <td class="table-cell">
+      <%= @format.created_at %>
+    </td>
+</tr>

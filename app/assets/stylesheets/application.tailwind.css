@@ -42,4 +42,40 @@
   a {
     @apply font-medium text-blue-600 dark:text-blue-500 hover:underline
   }
+
+  .table {
+	  @apply w-full text-sm text-left text-gray-500 dark:text-gray-400
+  }
+
+  .table-header {
+	  @apply text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400
+  }
+
+  .table-header-cell {
+	  @apply py-3 px-6
+  }
+
+  .table-cell {
+	  @apply py-4 px-6
+  }
+
+  .table-row {
+	  @apply bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600
+  }
+
+  .detail-page-h1 {
+	  @apply mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white
+  }
+
+  .detail-page-h2 {
+	  @apply text-4xl font-extrabold dark:text-white
+  }
+
+  .detail-page-mark {
+	  @apply px-2 text-white bg-blue-600 rounded dark:bg-blue-500
+  }
+
+  .detail-section-description {
+	  @apply my-4 text-lg text-gray-500
+  }
 }

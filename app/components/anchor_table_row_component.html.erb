@@ -1,0 +1,14 @@
+<tr class="table-row">
+    <td class="table-cell">
+      <%= @anchor.name %>
+    </td>
+    <td class="table-cell">
+      <%= @anchor.description %>
+    </td>
+    <td class="table-cell">
+      <% @anchor.columns.map(&:name).each do |column_name| %>
+        <%= render(ColumnBadgeComponent.new(column_name)) %>
+        &nbsp;
+      <% end %>
+    </td>
+</tr>

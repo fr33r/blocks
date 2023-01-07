@@ -21,7 +21,11 @@ Rails.application.routes.draw do
   end
 
   resources :rows, only: %i[index show create update edit new]
-  resources :formats, only: %i[index show], controller: 'file_formats'
+  resources :formats, only: %i[index show], controller: 'file_formats' do
+    resources :files, only: %i[index show] do
+      resources :rows, only: %i[index show create update edit new]
+    end
+  end
 
   mount RailsEventStore::Browser => '/res' if Rails.env.development?
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
