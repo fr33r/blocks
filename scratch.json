@@ -1,0 +1,36 @@
+{
+	"name": "TEST FORMAT",
+	"description": "This is a test file format",
+	"columns": [
+		{
+			"name": "COLUMN_1",
+			"description": "This is a cool thing",
+			"required": true,
+			"data_type": "string"
+		},
+		{
+			"name": "COLUMN_2",
+			"description": "This is another cool thing",
+			"required": true,
+			"data_type": "string"
+		},
+		{
+			"name": "COLUMN_3",
+			"description": "This is the last cool thing",
+			"required": false,
+			"data_type": "integer"
+		}
+	],
+	"anchors": [
+		{
+			"name": "Cool thing",
+			"description": "Links cool things",
+			"columns": [ "COLUMN_1" ]
+		},
+		{
+			"name": "Another cool thing",
+			"description": "Links other cool things",
+			"columns": [ "COLUMN_2", "COLUMN_3" ]
+		}
+	]
+}

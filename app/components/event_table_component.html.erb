@@ -1,11 +1,11 @@
 <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
     <table class="table">
         <thead class="table-header">
-            <%= render(RowTableHeaderRowComponent.new(show_actions: @show_actions)) %>
+            <%= render(EventTableHeaderRowComponent.new) %>
         </thead>
         <tbody>
-          <% @rows.each do |row| %>
-            <%= render(RowTableRowComponent.new(row: row, show_actions: @show_actions)) %>
+          <% @events.each do |event| %>
+            <%= render(EventTableRowComponent.new(event: event)) %>
           <% end %>
         </tbody>
     </table>

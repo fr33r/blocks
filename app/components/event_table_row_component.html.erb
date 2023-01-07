@@ -1,0 +1,14 @@
+<tr class="table-row">
+    <td class="table-cell">
+      <%= @event.event_id %>
+    </td>
+    <td class="table-cell">
+      <%= @event.class %>
+    </td>
+    <td class="table-cell">
+      <%= @event.metadata[:timestamp] %>
+    </td>
+    <td class="table-cell text-right">
+      <a href='<%= "/res/events/#{@event.event_id}" %>'>Show</a>
+    </td>
+</tr>
