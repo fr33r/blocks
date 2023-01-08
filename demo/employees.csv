@@ -1,0 +1,11 @@
+FIRST_NAME,LAST_NAME,COMPANY_ID,MANAGER_ID,ROLE,STARTED_AT
+Venice,Kuhn,1,,Software Engineer,1/8/2023
+Otto,Tromp,1,,Software Engineer,1/8/2023
+Claude,Rutherford,2,,Quality Assurance,1/9/2023
+Warner,Heidenreich,2,,Data Scientist,1/10/2023
+Walter,Lind,2,,Data Scientist,1/10/2023
+Noma,Gulgowski,2,,UX Designer,1/12/2023
+Beverley,McDermott,3,,Software Engineer,1/13/2023
+Kraig,Cremin,4,,Sales,1/14/2023
+Troy,Runte,5,,Sales,1/15/2023
+Morris,Wunsch,5,,Sales,1/16/2023
