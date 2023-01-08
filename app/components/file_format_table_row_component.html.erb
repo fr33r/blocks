@@ -17,4 +17,9 @@
     <td class="table-cell">
       <%= @format.created_at %>
     </td>
+    <% if @show_actions %>
+      <td class="table-cell">
+        <%= link_to "Show", action: :show, controller: 'file_formats', id: @format.id %>
+      </td>
+    <% end %>
 </tr>

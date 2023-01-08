@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_07_184548) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_08_064130) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -113,6 +113,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_07_184548) do
     t.index ["rule_id"], name: "index_row_errors_on_rule_id"
   end
 
+  create_table "row_links", force: :cascade do |t|
+    t.uuid "source_row_id", null: false
+    t.uuid "target_row_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "rows", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "state", null: false
     t.integer "row_number", null: false
@@ -142,4 +149,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_07_184548) do
     t.index ["pipeline_id"], name: "index_rules_on_pipeline_id"
   end
 
+  add_foreign_key "row_links", "rows", column: "source_row_id"
+  add_foreign_key "row_links", "rows", column: "target_row_id"
 end

@@ -6,6 +6,8 @@ class Row < ApplicationRecord
   belongs_to :data_file
   has_one :file_format, through: :data_file
   has_many :anchor_values
+  has_many :source_row_links, class_name: RowLink.to_s, foreign_key: :source_row_id
+  has_many :target_row_links, class_name: RowLink.to_s, foreign_key: :target_row_id
 
   # enum values.
   STATE_ENUM_VALUES = Data::Row::STATES.to_h { |state| [state, state.to_s] }

@@ -133,6 +133,7 @@ class RowReadModel
   def link_row!(event_data)
     row = find(event_data.fetch(:id))
     linked_row = find(event_data.fetch(:linked_row_id))
-    row.linked_rows << linked_row
+    link = RowLink.new(source_row: row, target_row: linked_row)
+    link.save!
   end
 end

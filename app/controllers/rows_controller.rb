@@ -12,6 +12,7 @@ class RowsController < ApplicationController
     @duplicate_rows = Row.with_hash(@row.data_hash).where.not(id: @row.id)
     stream = "Data::Row$#{@row.id}"
     @events = Rails.configuration.event_store.read.stream(stream).to_a
+    @linked_rows = (@row.source_row_links.map(&:target_row) + @row.target_row_links.map(&:source_row)).uniq
   end
 
   def update

@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe Row, type: :model do
   it { should have_many(:row_errors) }
   it { should have_many(:anchor_values) }
+  it { should have_many(:source_row_links) }
+  it { should have_many(:target_row_links) }
   it {
     should define_enum_for(:state)
       .with_values(Row::STATE_ENUM_VALUES)

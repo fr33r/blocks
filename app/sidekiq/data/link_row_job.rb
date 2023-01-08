@@ -5,10 +5,11 @@ class Data::LinkRowJob
     matches = linkables(row_id)
     return unless matches.present?
 
-    d_row = AggregateRoot::Repository.load(Data::Row.new(row_id), stream(row_id))
-    matches.each do |match|
-      d_match = AggregateRoot::Repository.load(Data::Row.new(match.id), stream(match.id))
-      d_row.link(d_match)
+    repository.with_aggregate(Data::Row.new(row_id), stream(row_id)) do |d_row|
+      matches.each do |match|
+        d_match = repository.load(Data::Row.new(match.id), stream(match.id))
+        d_row.link(d_match)
+      end
     end
   end
 
@@ -22,5 +23,9 @@ class Data::LinkRowJob
 
   def linkables(row_id)
     read_model.linkable_rows(row_id)
+  end
+
+  def repository
+    AggregateRoot::Repository.new
   end
 end

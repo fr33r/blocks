@@ -28,6 +28,9 @@
   <p class="detail-section-description">
   The rows from other formats that have been linked to this row.
   </p>
+  <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+    <%= render(RowTableComponent.new(rows: @linked_rows)) %>
+  </div>
 
   <h2 class="detail-page-h2">Errors</h2>
   <p class="detail-section-description">

@@ -11,7 +11,6 @@ module Evaluation
     def initialize(id)
       @id = id
       @indexed_rules = {}
-      @test = []
     end
 
     def rules

@@ -1,10 +1,10 @@
 <table class="table">
     <thead class="table-header">
-      <%= render(FileFormatTableHeaderRowComponent.new) %>
+      <%= render(FileFormatTableHeaderRowComponent.new(show_actions: @show_actions)) %>
     </thead>
     <tbody>
       <% @formats.each do |format| %>
-        <%= render(FileFormatTableRowComponent.new(format: format)) %>
+        <%= render(FileFormatTableRowComponent.new(format: format, show_actions: @show_actions)) %>
       <% end %>
     </tbody>
 </table>

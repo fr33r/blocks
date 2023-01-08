@@ -44,6 +44,7 @@ module Data
     def initialize(id, hasher = ::Hashers::Md5)
       @id = id
       @hasher = hasher
+      @linked_row_ids = []
     end
 
     def update_data(data)
