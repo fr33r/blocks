@@ -15,6 +15,8 @@ class RowReadModel
         filter_row!(event.data)
       when Data::Events::RowIngested
         ingest_row!(event.data)
+      when Data::Events::RowLinked
+        link_row!(event.data)
     end
   end
 
@@ -24,6 +26,18 @@ class RowReadModel
 
   def find(id)
     Row.find(id)
+  end
+
+  def linkable_rows(id)
+    row = Row.find(id)
+    anchor_values = row.anchor_values
+    return unless anchor_values.present?
+
+    format = row.data_file.file_format
+    Row
+      .joins(:anchor_values, :file_format)
+      .where(anchor_values: { data_hash: anchor_values.map(&:data_hash) })
+      .where.not(file_formats: { id: format.id })
   end
 
   def with_hash(hash)
@@ -85,6 +99,8 @@ class RowReadModel
     row.save!
 
     create_anchor_values!(event_data)
+
+    Data::LinkRowJob.new.perform(row.id)
   end
 
   def update_row!(event_data)
@@ -112,5 +128,11 @@ class RowReadModel
   def ingest_row!(event_data)
     attribute_names = %i[updated_at]
     Row.update!(**event_data.slice(*attribute_names))
+  end
+
+  def link_row!(event_data)
+    row = find(event_data.fetch(:id))
+    linked_row = find(event_data.fetch(:linked_row_id))
+    row.linked_rows << linked_row
   end
 end

@@ -53,6 +53,7 @@ gem "rswag-ui"
 gem "rails_event_store", "~> 2.5.1"
 gem "tailwindcss-rails", "~> 2.0"
 gem 'json-patch'
+gem "sidekiq", "~> 7.0"
 
 # Use Sass to process CSS
 # gem "sassc-rails"

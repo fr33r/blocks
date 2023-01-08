@@ -16,6 +16,8 @@ module Data
     class RowInvalidated < RailsEventStore::Event; end
     # Domain event that occurs when the row is ingested.
     class RowIngested < RailsEventStore::Event; end
+    # Domain event that occurs when the row is linked to another row.
+    class RowLinked < RailsEventStore::Event; end
 
     # ====== FILE ====== #
 

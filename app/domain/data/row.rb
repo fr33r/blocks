@@ -39,6 +39,7 @@ module Data
     attr_reader :file_id
     attr_reader :row_number
     attr_reader :anchor_values
+    attr_reader :linked_row_ids
 
     def initialize(id, hasher = ::Hashers::Md5)
       @id = id
@@ -64,6 +65,15 @@ module Data
         anchor_values: generate_anchor_values(data, format).map(&:to_h),
       }
       apply Events::RowUploaded.new(data: event_data)
+    end
+
+    def link(row)
+      event_data = {
+        updated_at: Time.now,
+        id: id,
+        linked_row_id: row.id,
+      }
+      apply Events::RowLinked.new(data: event_data)
     end
 
     def evaluate(pipeline)
@@ -139,6 +149,12 @@ module Data
 
     on Events::RowIngested do |event|
       @state = event.data.fetch(:state)
+      @updated_at = event.data.fetch(:updated_at)
+    end
+
+    on Events::RowLinked do |event|
+      linked_row_id = event.data.fetch(:linked_row_id)
+      @linked_row_ids << linked_row_id
       @updated_at = event.data.fetch(:updated_at)
     end
 
