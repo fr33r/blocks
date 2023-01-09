@@ -14,10 +14,13 @@ $ docker compose up --file docker/docker-compose.yaml
 $ bundle exec rails db:migrate
 ```
 
-3 Run the demo:
+3. Run the demo:
 
 ```bash
 $ bundle exec rails demo:run
 ```
+
+> NOTE: The demo rake task is currently not idempotent. If you would like to
+rerun the demo, clear your database first.
 
 4. Open the web browser to `http://localhost:3000/formats`.
