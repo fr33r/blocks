@@ -1,24 +1,23 @@
-# README
+# BLOCKS
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## DEMO
 
-Things you may want to cover:
+1. Spin up dependencies (requires `docker compose`):
 
-* Ruby version
+```bash
+$ docker compose up --file docker/docker-compose.yaml
+```
 
-* System dependencies
+2. Run the migrations:
 
-* Configuration
+```bash
+bundle exec rails db:migrate
+```
 
-* Database creation
+3 Run the demo:
 
-* Database initialization
+```bash
+bundle exex rails demo:run
+```
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+4. Open the web browser to `http://localhost:3000/formats`.
