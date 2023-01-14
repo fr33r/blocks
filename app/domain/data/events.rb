@@ -48,6 +48,8 @@ module Data
       RowLinked,
       FileFormatCreated,
       FileUploaded,
+      FileProcessing,
+      FileProcessed,
     ]
   end
 end

@@ -88,6 +88,7 @@ module Data
 
     def processing
       event_data = {
+        id: id,
         state: State::PROCESSING,
         processing_started_at: Time.now,
         updated_at: Time.now,
@@ -97,6 +98,7 @@ module Data
 
     def processed
       event_data = {
+        id: id,
         state: State::PROCESSED,
         processing_ended_at: Time.now,
         updated_at: Time.now,

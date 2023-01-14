@@ -100,34 +100,39 @@ class RowReadModel
 
     create_anchor_values!(event_data)
 
-    Data::LinkRowJob.new.perform(row.id)
+    Data::LinkRowJob.perform_async(row.id)
   end
 
   def update_row!(event_data)
-    attributes_names = %i[data updated_by updated_at]
+    attributes_names = %i[id data updated_by updated_at]
     attributes = event_data.slice(*attributes_names)
     attributes[:data_hash] = attributes.delete(:hash)
-    Row.update!(**attributes)
+    id = attributes.fetch(:id)
+    find(id).update!(**attributes)
   end
 
   def validate_row!(event_data)
-    attribute_names = %i[updated_at]
-    Row.update!(**event_data.slice(*attribute_names))
+    attribute_names = %i[id state updated_at]
+    id = attributes.fetch(:id)
+    find(id).update!(**event_data.slice(*attribute_names))
   end
 
   def invalidate_row!(event_data)
-    attribute_names = %i[updated_at]
-    Row.update!(**event_data.slice(*attribute_names))
+    attribute_names = %i[id state updated_at]
+    id = attributes.fetch(:id)
+    find(id).update!(**event_data.slice(*attribute_names))
   end
 
   def filter_row!(event_data)
-    attribute_names = %i[updated_at]
-    Row.update!(**event_data.slice(*attribute_names))
+    attribute_names = %i[id state updated_at]
+    id = attributes.fetch(:id)
+    find(id).update!(**event_data.slice(*attribute_names))
   end
 
   def ingest_row!(event_data)
-    attribute_names = %i[updated_at]
-    Row.update!(**event_data.slice(*attribute_names))
+    attribute_names = %i[id state updated_at]
+    id = attributes.fetch(:id)
+    find(id).update!(**event_data.slice(*attribute_names))
   end
 
   def link_row!(event_data)

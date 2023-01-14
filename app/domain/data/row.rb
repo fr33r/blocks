@@ -49,7 +49,7 @@ module Data
 
     def update_data(data)
       hash = hasher.hash(data.to_yaml)
-      event_data = { data: data, updated_at: Time.now, hash: hash }
+      event_data = { id: id, data: data, updated_at: Time.now, hash: hash }
       apply Events::RowUpdated.new(data: event_data)
     end
 
@@ -95,21 +95,21 @@ module Data
 
       errors = pipeline.execute!(self)
       if errors.count.positive?
-        event_data = { errors: errors, state: State::INVALID, updated_at: Time.now }
+        event_data = { id: id, errors: errors, state: State::INVALID, updated_at: Time.now }
         apply Events::RowInvalidated.new(data: event_data)
       else
-        event_data = { errors: errors, state: State::VALID, updated_at: Time.now }
+        event_data = { id: id, errors: errors, state: State::VALID, updated_at: Time.now }
         apply Events::RowValidated.new(data: event_data)
       end
     end
 
     def filter
-      event_data = { state: State::FILTERED, updated_at: Time.now }
+      event_data = { id: id, state: State::FILTERED, updated_at: Time.now }
       apply Events::RowFiltered.new(data: event_data)
     end
 
     def ingest
-      event_data = { state: State::INGESTED, updated_at: Time.now }
+      event_data = { id: id, state: State::INGESTED, updated_at: Time.now }
       apply Events::RowIngested.new(data: event_data)
     end
 

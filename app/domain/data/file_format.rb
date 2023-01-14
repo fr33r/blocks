@@ -16,6 +16,7 @@ module Data
       State::INACTIVE,
     ].freeze
 
+    attr_reader :id
     attr_reader :state
     attr_reader :name
     attr_reader :description
@@ -34,7 +35,7 @@ module Data
       columns = create_columns(columns_args)
       anchors = create_anchors(anchors_args, columns)
       event_data = {
-        id: @id,
+        id: id,
         name: name,
         state: State::CREATED,
         updated_at: Time.now,
@@ -49,6 +50,7 @@ module Data
 
     def activate(updated_by)
       event_data = {
+        id: id,
         state: State::ACTIVE,
         updated_at: Time.now,
         updated_by: updated_by,
@@ -58,6 +60,7 @@ module Data
 
     def inactivate(updated_by)
       event_data = {
+        id: id,
         state: State::INACTIVE,
         updated_at: Time.now,
         updated_by: updated_by,
