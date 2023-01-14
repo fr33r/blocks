@@ -21,6 +21,6 @@
   The rows that comprise this file.
   </p>
   <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-    <%= render(RowTableComponent.new(rows: @file.rows)) %>
+    <%= render(RowTableComponent.new(rows: @file.rows, total_rows: @file.rows.count, page_size: 10)) %>
   </div>
 </div>

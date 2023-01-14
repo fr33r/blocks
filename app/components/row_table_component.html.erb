@@ -4,9 +4,10 @@
             <%= render(RowTableHeaderRowComponent.new(show_actions: @show_actions)) %>
         </thead>
         <tbody>
-          <% @rows.each do |row| %>
+          <% @rows.limit(@page_size).each do |row| %>
             <%= render(RowTableRowComponent.new(row: row, show_actions: @show_actions)) %>
           <% end %>
         </tbody>
     </table>
 </div>
+<%= render(TablePaginationFooterComponent.new(total: @total_rows, limit: @page_size)) %>
