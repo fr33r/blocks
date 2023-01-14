@@ -2,25 +2,21 @@
 
 ## DEMO
 
-1. Spin up dependencies (requires `docker compose`):
+1. Spin up application with all required dependencies (requires `docker compose`):
 
 ```bash
 $ docker compose up --file docker/docker-compose.yaml
 ```
 
-2. Run the migrations:
+> NOTE: The database migrations are automatically ran via the `db-migrations` service.
+
+2. Run the demo:
 
 ```bash
-$ bundle exec rails db:migrate
-```
-
-3. Run the demo:
-
-```bash
-$ bundle exec rails demo:run
+$ docker compose exec web rails demo:run
 ```
 
 > NOTE: The demo rake task is currently not idempotent. If you would like to
 rerun the demo, clear your database first.
 
-4. Open the web browser to `http://localhost:3000/formats`.
+3. Open the web browser to `http://localhost:3000/formats`.

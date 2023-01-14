@@ -2,18 +2,49 @@ version: '3'
 services:
   redis:
     image: redis
-    ports:
-      - "6379:6379"
-  postgres:
+  db:
     image: postgres
     environment:
       - POSTGRES_DB=blocks_development
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
-    ports:
-      - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
+  db-migration:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    command: bundle exec rails db:migrate
+    volumes:
+      - ../:/myapp
+    depends_on:
+      - db
+  web:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    environment:
+      REDIS_URL: redis://redis:6379
+    volumes:
+      - ../:/myapp
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - redis
+      - sidekiq
+  sidekiq:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    command: bundle exec sidekiq
+    environment:
+      REDIS_URL: redis://redis:6379
+    volumes:
+      - ../:/myapp
+    depends_on:
+      - db
+      - redis
 volumes:
   postgres-data:
     driver: local
