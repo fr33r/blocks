@@ -4,23 +4,17 @@
   </h1>
 
   <h2 class="detail-page-h2">Details</h2>
-  <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-    <%= render(FileTableComponent.new(files: Array.wrap(@file), show_actions: false)) %>
-  </div>
+  <%= render(FileTableComponent.new(files: Array.wrap(@file), show_actions: false)) %>
 
   <h2 class="detail-page-h2">Events</h2>
   <p class="detail-section-description">
   The series of events that led to the current state of the file.
   </p>
-  <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-    <%= render(EventTableComponent.new(events: @events)) %>
-  </div>
+  <%= render(EventTableComponent.new(events: @events)) %>
 
   <h2 class="detail-page-h2">Rows</h2>
   <p class="detail-section-description">
   The rows that comprise this file.
   </p>
-  <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-    <%= render(RowTableComponent.new(rows: @file.rows, total_rows: @file.rows.count, page_size: 10)) %>
-  </div>
+  <%= render(RowTableComponent.new(rows: @file.rows, total_rows: @file.rows.count, page_size: 5)) %>
 </div>

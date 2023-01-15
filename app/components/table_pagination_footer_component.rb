@@ -1,63 +1,68 @@
 # frozen_string_literal: true
 
 class TablePaginationFooterComponent < ViewComponent::Base
-  MAX_PAGE_COUNT = 5
-  COLLAPSED_PAGE_NUM = '...'
-
-  def initialize(total:, limit:, max_page_count: MAX_PAGE_COUNT, current_page_num: 1)
-    @total = total
-    @offset = ((current_page_num-1) * limit) + 1
-    @limit = limit
-    @page_count = total / limit
-    @end = (@offset + limit) > total ? total : (@offset + limit) - 1
-    @start = @offset
-    @current_page_num = current_page_num
-    @max_page_count = max_page_count
+  def initialize(total:, limit:, current_page: 1)
+    @total = total.to_i
+    @offset = ((current_page.to_i-1) * limit.to_i)
+    @limit = limit.to_i
+    @page_count = total.to_i / limit.to_i
+    @current_page = current_page.to_i
   end
 
-  def collapse?
-    @page_count > @max_page_count
+  def previous_page
+    return @current_page if first_page?
+
+    @current_page - 1
   end
 
-  # amount of pages with numbers on each side of the current page if collapsing.
-  def buffer
-    1
+  def next_page
+    return @current_page if last_page?
+
+    @current_page + 1
   end
 
-  def pages_from_start
-    @current_page_num - 1
+  def previous_offset
+    return 0 if first_page?
+
+    @offset - @limit
   end
 
-  def pages_from_end
-    @end - @current_page_num 
+  def next_offset
+    return @total if last_page?
+
+    @offset + @limit
   end
 
-  def left_collapse?
-    pages_from_start > buffer
+  def start_num
+    @offset + 1
   end
 
-  def right_collapse?
-    pages_from_end > buffer
+  def end_num
+    num = @offset + @limit
+    num <= @total ? num : @total
   end
 
-  def start_page_num
-    start_num = @current_page_num - buffer
-    start_num < 1 ? @current_page_num : start_num
+  def hide?
+    @page_count == 1
   end
 
-  def end_page_num
-    end_num = @current_page_num + buffer
-    end_num > MAX_PAGE_COUNT ? @current_page_num : end_num
+  def show?
+    !hide?
   end
 
-  def pages
-    return (1..@page_count).to_a unless collapse?
+  def last_page?
+    @current_page == @page_count
+  end
 
-    results = []
-    results << COLLAPSED_PAGE_NUM if left_collapse?
-    nums = (start_page_num..end_page_num).to_a
-    results.push(*nums)
-    results << COLLAPSED_PAGE_NUM if right_collapse?
-    results
+  def first_page?
+    @current_page == 1
+  end
+
+  def previous?
+    !first_page?
+  end
+
+  def next?
+    !last_page?
   end
 end

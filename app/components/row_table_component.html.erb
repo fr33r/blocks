@@ -4,10 +4,10 @@
             <%= render(RowTableHeaderRowComponent.new(show_actions: @show_actions)) %>
         </thead>
         <tbody>
-          <% @rows.limit(@page_size).each do |row| %>
+          <% @rows.offset(params[:offset] || 0).limit(@page_size).each do |row| %>
             <%= render(RowTableRowComponent.new(row: row, show_actions: @show_actions)) %>
           <% end %>
         </tbody>
     </table>
 </div>
-<%= render(TablePaginationFooterComponent.new(total: @total_rows, limit: @page_size)) %>
+<%= render(TablePaginationFooterComponent.new(total: @total_rows, limit: @page_size, current_page: params[:page] || 1)) %>
