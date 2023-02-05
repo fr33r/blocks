@@ -1,0 +1,16 @@
+<div class="flex container justify-center">
+  <div class="card">
+    <%= form_with model: @row do |form| %>
+      <h5 class="card-form-h5">Edit row</h5>
+      <div>
+        <%= form.label :row_number %>
+        <%= form.text_field :row_number %>
+      </div>
+      <div>
+        <%= form.label :data %>
+        <%= form.text_area :data, size: '25x10' %>
+      </div>
+      <%= form.submit "Save" %>
+    <% end %>
+  </div>
+</div>

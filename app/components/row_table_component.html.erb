@@ -1,0 +1,13 @@
+<div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+    <table class="table">
+        <thead class="table-header">
+            <%= render(RowTableHeaderRowComponent.new(show_actions: @show_actions)) %>
+        </thead>
+        <tbody>
+          <% @rows.offset(params[:offset] || 0).limit(@page_size).each do |row| %>
+            <%= render(RowTableRowComponent.new(row: row, show_actions: @show_actions)) %>
+          <% end %>
+        </tbody>
+    </table>
+</div>
+<%= render(TablePaginationFooterComponent.new(total: @total_rows, limit: @page_size, current_page: params[:page] || 1)) %>

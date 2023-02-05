@@ -1,0 +1,33 @@
+<tr class="table-row">
+    <td class="table-cell">
+      <%= @row.row_number %>
+    </td>
+    <td class="table-cell">
+      <%= @row.data_hash %>
+    </td>
+    <td class="table-cell">
+      <% if @row.uploaded_state? %>
+        <%= render(UploadedStatusPillComponent.new) %>
+      <% elsif @row.valid_state? %>
+        <%= render(ValidStatusPillComponent.new) %>
+      <% elsif @row.invalid_state? %>
+        <%= render(InvalidStatusPillComponent.new) %>
+      <% elsif @row.filtered_state? %>
+        <%= render(FilteredStatusPillComponent.new) %>
+      <% elsif @row.ingested_state? %>
+        <%= render(IngestedStatusPillComponent.new) %>
+      <% end %>
+    </td>
+    <td class="table-cell">
+      <%= @row.data %>
+    </td>
+    <td class="table-cell">
+      <%= @row.uploaded_at %>
+    </td>
+    <% if @show_actions %>
+      <td class="table-cell text-right">
+        <%= link_to "Show", action: :show, controller: 'rows', format_id: @row.data_file.file_format.id, file_id: @row.file_id, id: @row.id %>
+        <%= link_to "Edit", action: :edit, controller: 'rows', format_id: @row.data_file.file_format.id, file_id: @row.file_id, id: @row.id %>
+      </td>
+    <% end %>
+</tr>

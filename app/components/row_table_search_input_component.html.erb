@@ -1,0 +1,5 @@
+<%= form_with url: "/", method: :get do |form| %>
+  <%= form.label :query, "🔍" %>
+  <%= form.text_field :query %>
+  <%= form.submit "Search" %>
+<% end %>

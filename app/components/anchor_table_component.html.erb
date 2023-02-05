@@ -1,0 +1,10 @@
+<table class="table">
+    <thead class="table-header">
+      <%= render(AnchorTableHeaderRowComponent.new) %>
+    </thead>
+    <tbody>
+      <% @anchors.each do |anchor| %>
+        <%= render(AnchorTableRowComponent.new(anchor: anchor)) %>
+      <% end %>
+    </tbody>
+</table>

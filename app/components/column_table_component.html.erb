@@ -1,0 +1,10 @@
+<table class="table">
+    <thead class="table-header">
+      <%= render(ColumnTableHeaderRowComponent.new) %>
+    </thead>
+    <tbody>
+      <% @columns.each do |column| %>
+        <%= render(ColumnTableRowComponent.new(column: column)) %>
+      <% end %>
+    </tbody>
+</table>

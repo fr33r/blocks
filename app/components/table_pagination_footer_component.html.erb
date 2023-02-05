@@ -1,0 +1,40 @@
+<div class="flex flex-col items-center">
+  <span class="text-sm text-gray-700 dark:text-gray-400">
+    Showing
+    <span class="font-semibold text-gray-900 dark:text-white"><%= start_num %></span>
+    to
+    <span class="font-semibold text-gray-900 dark:text-white"><%= end_num %></span>
+    of
+    <span class="font-semibold text-gray-900 dark:text-white"><%= @total %></span>
+  </span>
+  <% if show? %>
+    <span>&nbsp;</span>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination-nav">
+        <% if first_page? %>
+          <li>
+            <span class="pagination-previous-inactive">Previous</span>
+          </li>
+        <% else %>
+          <li>
+            <%= link_to "Previous", request.path, class:'pagination-previous', offset: previous_offset, page: previous_page %>
+          </li>
+        <% end %>
+        <li>
+          <span aria-current="page" class="pagination-current-page">
+            <%= @current_page %>
+          </span>
+        </li>
+        <% if last_page? %>
+          <li>
+            <span class="pagination-next-inactive">Next</span>
+          </li>
+        <% else %>
+          <li>
+            <%= link_to "Next", request.path + '?' + { offset: next_offset, limit: @limit, page: next_page,  }.to_query, class: 'pagination-next' %>
+          </li>
+        <% end %>
+      </ul>
+    </nav>
+  <% end %>
+</div>

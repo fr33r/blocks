@@ -1,0 +1,10 @@
+<table class="table">
+    <thead class="table-header">
+      <%= render(FileTableHeaderRowComponent.new(show_actions: @show_actions)) %>
+    </thead>
+    <tbody>
+      <% @files.each do |file| %>
+        <%= render(FileTableRowComponent.new(file: file, show_actions: @show_actions)) %>
+      <% end %>
+    </tbody>
+</table>

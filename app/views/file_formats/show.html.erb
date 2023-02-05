@@ -1,0 +1,32 @@
+<div class="flex flex-col container space-y-4">
+  <h1 class="detail-page-h1">
+    Format <mark class="detail-page-mark"><%= @format.name %></mark>
+  </h1>
+
+  <h2 class="detail-page-h2">Details</h2>
+  <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+    <%= render(FileFormatTableComponent.new(formats: Array.wrap(@format), show_actions: false)) %>
+  </div>
+
+  <h2 class="detail-page-h2">Columns</h2>
+  <p class="detail-section-description">
+  The columns defined by the this format. Files for the format will contain these columns.
+  </p>
+  <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+    <%= render(ColumnTableComponent.new(columns: @format.columns)) %>
+  </div>
+
+  <h2 class="detail-page-h2">Anchors</h2>
+  <p class="detail-section-description">
+  The anchors defined by the format. These are used to link rows between files together.
+  </p>
+  <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+    <%= render(AnchorTableComponent.new(anchors: @format.anchors)) %>
+  </div>
+
+  <h2 class="detail-page-h2">Files</h2>
+  <p class="detail-section-description">Files with this format.</p>
+  <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+    <%= render(FileTableComponent.new(files: @format.files)) %>
+  </div>
+</div>

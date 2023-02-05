@@ -1,0 +1,276 @@
+---
+openapi: 3.0.1
+info:
+  title: Blocks API
+  version: v1
+paths:
+  "/api/formats":
+    post:
+      summary: Creates new file format
+      tags:
+      - Formats
+      parameters: []
+      responses:
+        '201':
+          description: Format created
+    get:
+      summary: Retrieves collection of formats
+      tags:
+      - Formats
+      responses:
+        '200':
+          description: Collection retrieved
+  "/api/formats/{id}":
+    get:
+      summary: Retrieves a single file format
+      tags:
+      - Formats
+      parameters:
+      - name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Format retrieved
+  "/api/formats/{format_id}/files":
+    post:
+      summary: Creates new file
+      tags:
+      - Files
+      parameters:
+      - name: format_id
+        in: path
+        required: true
+      responses:
+        '201':
+          description: Format created
+    get:
+      summary: Retrieves collection of files
+      tags:
+      - Files
+      responses:
+        '200':
+          description: Collection retrieved
+  "/api/formats/{format_id}/files/{id}":
+    get:
+      summary: Retrieves a single file
+      tags:
+      - Files
+      parameters:
+      - name: id
+        in: path
+        required: true
+      - name: format_id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: File retrieved
+  "/api/formats/{format_id}/pipelines":
+    post:
+      summary: Creates new pipeline
+      tags:
+      - Pipelines
+      parameters:
+      - name: format_id
+        in: path
+        required: true
+      responses:
+        '201':
+          description: Pipeline created
+    get:
+      summary: Retrieves collection of pipelines
+      tags:
+      - Pipelines
+      parameters:
+      - name: format_id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Collection retrieved
+  "/api/formats/{format_id}/pipelines/{id}":
+    get:
+      summary: Retrieves a single pipeline
+      tags:
+      - Pipelines
+      parameters:
+      - name: format_id
+        in: path
+        required: true
+      - name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Pipeline retrieved
+  "/api/formats/{format_id}/files/{file_id}/rows":
+    post:
+      summary: Creates new row
+      tags:
+      - Rows
+      parameters:
+      - name: format_id
+        in: path
+        required: true
+      - name: file_id
+        in: path
+        required: true
+      responses:
+        '201':
+          description: Row created
+    get:
+      summary: Retrieves collection of rows
+      tags:
+      - Rows
+      parameters:
+      - name: format_id
+        in: path
+        required: true
+      - name: file_id
+        in: path
+        required: true
+      - name: hash
+        in: query
+        required: false
+      - name: state
+        in: query
+        required: false
+      responses:
+        '200':
+          description: Collection retrieved
+    patch:
+      summary: Modifies the collection rows
+      tags:
+      - Rows
+      parameters:
+      - name: format_id
+        in: path
+        required: true
+      - name: file_id
+        in: path
+        required: true
+      responses:
+        '204':
+          description: Rows created
+  "/api/formats/{format_id}/files/{file_id}/rows/{id}":
+    get:
+      summary: Retrieves a single row
+      tags:
+      - Rows
+      parameters:
+      - name: format_id
+        in: path
+        required: true
+      - name: file_id
+        in: path
+        required: true
+      - name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Row retrieved
+    put:
+      summary: Replaces a single row
+      tags:
+      - Rows
+      parameters:
+      - name: format_id
+        in: path
+        required: true
+      - name: file_id
+        in: path
+        required: true
+      - name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Row replaced
+    patch:
+      summary: Modifies a single row
+      tags:
+      - Rows
+      parameters:
+      - name: format_id
+        in: path
+        required: true
+      - name: file_id
+        in: path
+        required: true
+      - name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Row modified
+  "/api/formats/{format_id}/pipelines/{pipeline_id}/rules":
+    post:
+      summary: Creates new rule
+      tags:
+      - Rules
+      parameters:
+      - name: format_id
+        in: path
+        required: true
+      - name: pipeline_id
+        in: path
+        required: true
+      responses:
+        '201':
+          description: Rule created
+    get:
+      summary: Retrieves collection of rules
+      tags:
+      - Rules
+      parameters:
+      - name: format_id
+        in: path
+        required: true
+      - name: pipeline_id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Collection retrieved
+  "/api/formats/{format_id}/pipelines/{pipeline_id}/rules/{id}":
+    get:
+      summary: Retrieves a single rule
+      tags:
+      - Rules
+      parameters:
+      - name: format_id
+        in: path
+        required: true
+      - name: pipeline_id
+        in: path
+        required: true
+      - name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Rule retrieved
+    patch:
+      summary: Modifies a single rule
+      tags:
+      - Rules
+      parameters:
+      - name: format_id
+        in: path
+        required: true
+      - name: pipeline_id
+        in: path
+        required: true
+      - name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Rule modified
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com

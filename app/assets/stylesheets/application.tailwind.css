@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  input[type=search] {
+    @apply w-full form-input rounded-md py-2 px-4 text-black;
+  }
+
+  .card {
+    @apply w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700
+  }
+
+  .card > form {
+    @apply space-y-6
+  }
+
+  .card > form > div > input[type=text] {
+    @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
+  }
+
+  .card > form > div > textarea {
+    @apply block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+  }
+
+  .card > form > div > label {
+    @apply block mb-2 text-sm font-medium text-gray-900 dark:text-white
+  }
+
+  .card > form > input[type=submit] {
+    @apply w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
+  }
+
+  .card-form-h5 {
+	@apply text-xl font-medium text-gray-900 dark:text-white
+  }
+
+  .card-form-input-label {
+	  @apply block mb-2 text-sm font-medium text-gray-900 dark:text-white
+  }
+
+  a {
+    @apply font-medium text-blue-600 dark:text-blue-500 hover:underline
+  }
+
+  .table {
+	  @apply w-full text-sm text-left text-gray-500 dark:text-gray-400
+  }
+
+  .table-header {
+	  @apply text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400
+  }
+
+  .table-header-cell {
+	  @apply py-3 px-6
+  }
+
+  .table-cell {
+	  @apply py-4 px-6
+  }
+
+  .table-row {
+	  @apply bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600
+  }
+
+  .detail-page-h1 {
+	  @apply mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white
+  }
+
+  .detail-page-h2 {
+	  @apply text-4xl font-extrabold dark:text-white
+  }
+
+  .detail-page-mark {
+	  @apply px-2 text-white bg-blue-600 rounded dark:bg-blue-500
+  }
+
+  .detail-section-description {
+	  @apply my-4 text-lg text-gray-500
+  }
+
+  .pagination-page-number {
+	  @apply px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white
+  }
+
+  .pagination-arrow-left {
+	@apply block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white
+  }
+
+  .pagination-arrow-right {
+	  @apply block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white
+  }
+
+  .pagination-current-page {
+	  @apply z-10 px-3 py-2 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white
+  }
+
+  .pagination-previous {
+	  @apply px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white
+  }
+
+  .pagination-previous-inactive {
+	  @apply px-3 py-2 ml-0 leading-tight text-gray-700 bg-gray-100 border border-gray-300 rounded-l-lg dark:border-gray-700 dark:bg-gray-700 dark:text-white
+  }
+
+  .pagination-next {
+	  @apply px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white
+  }
+
+  .pagination-next-inactive {
+	  @apply px-3 py-2 ml-0 leading-tight text-gray-700 bg-gray-100 border border-gray-300 rounded-r-lg dark:border-gray-700 dark:bg-gray-700 dark:text-white
+  }
+
+  .pagination-nav {
+	  @apply inline-flex -space-x-px
+  }
+}
